@@ -8,49 +8,21 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page Test'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+  const MyHomePage({super.key});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -58,9 +30,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       body: Center(
         child: Column(
@@ -70,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                 margin: const EdgeInsets.all(8.0),
                 child: Image.asset(
-                  "assets/htlgkr_logo.png",
+                  "assets/images/htlgkr_logo.png",
                   fit: BoxFit.contain,
                 ),
               ),
@@ -95,12 +64,131 @@ class _MyHomePageState extends State<MyHomePage> {
                       fit: BoxFit.fitWidth,
                       alignment: Alignment.topCenter,
                     ),
-                    const Text("Hello"),
+                    Expanded(
+                      child: Column(
+                        children: <ActivityWidget>[
+                          ActivityWidget(
+                            title: "Wegweiser",
+                            description: "lorem lorem lorem lorem lorem lorem",
+                            iconData: Icons.map,
+                            onTap: () => print("Option 1 tapped"),
+                          ),
+                          ActivityWidget(
+                            title: "Anmelden",
+                            description: "Option 2",
+                            iconData: Icons.school,
+                            onTap: () => print("Option 2 tapped"),
+                          ),
+                          ActivityWidget(
+                            title: "Infos",
+                            description: "Option 3",
+                            iconData: Icons.info,
+                            onTap: () => print("Option 3 tapped"),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ActivityWidget extends StatefulWidget {
+  final String title;
+  final String description;
+  final IconData iconData;
+  final VoidCallback onTap;
+
+  const ActivityWidget({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.iconData,
+    required this.onTap,
+  });
+
+  @override
+  ActivityWidgetState createState() => ActivityWidgetState();
+}
+
+class ActivityWidgetState extends State<ActivityWidget> {
+  double _scale = 1.0; // Control scaling factor
+
+  void _onTapDown(TapDownDetails details) {
+    setState(() {
+      _scale = 0.95; // Scale down slightly
+    });
+  }
+
+  void _onTapUp(TapUpDetails details) {
+    setState(() {
+      _scale = 1.0; // Reset scale
+    });
+  }
+
+  void _onTapCancel() {
+    setState(() {
+      _scale = 1.0; // Reset scale
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: _onTapDown,
+      onTapUp: _onTapUp,
+      onTapCancel: _onTapCancel,
+      onTap: widget.onTap,
+      child: AnimatedScale(
+        scale: _scale,
+        duration: const Duration(milliseconds: 100),
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: const BoxDecoration(color: Colors.transparent),
+          child: Row(
+            children: [
+              Icon(
+                widget.iconData,
+                size: 50,
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Text(
+                        widget.description,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 15),
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 40,
+              ),
+            ],
+          ),
         ),
       ),
     );
