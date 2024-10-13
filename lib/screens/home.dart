@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:simple_animations/simple_animations.dart';
 import '../widgets/activity.dart';
 import 'navigation.dart';
 
@@ -45,11 +46,42 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Column(
                   children: <Widget>[
-                    // SVG Wave Image
-                    SvgPicture.asset(
-                      "assets/wave.svg",
-                      fit: BoxFit.fitWidth,
-                      alignment: Alignment.topCenter,
+                    SizedBox(
+                      height: 100,
+                      child: Stack(
+                        children: [
+                          for (var i in [
+                            [11, 1.0],
+                            [7, 0.5],
+                            [5, 0.3]
+                          ])
+                            LoopAnimationBuilder<double>(
+                                tween: Tween(
+                                    begin: -MediaQuery.of(context).size.width,
+                                    end: 0),
+                                duration: Duration(seconds: i[0] as int),
+                                builder: (context, value, child) => Positioned(
+                                      left: value,
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                2,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                          image: const Svg(
+                                            "assets/wave.svg",
+                                          ),
+                                          colorFilter: ColorFilter.mode(
+                                              Colors.white
+                                                  .withOpacity(i[1] as double),
+                                              BlendMode.srcIn),
+                                          repeat: ImageRepeat.repeatX,
+                                        )),
+                                      ),
+                                    )),
+                        ],
+                      ),
                     ),
                     // Activity Section
                     Expanded(
