@@ -15,10 +15,10 @@ class ActivityWidget extends StatefulWidget {
   });
 
   @override
-  ActivityWidgetState createState() => ActivityWidgetState();
+  State<ActivityWidget> createState() => _ActivityWidgetState();
 }
 
-class ActivityWidgetState extends State<ActivityWidget> {
+class _ActivityWidgetState extends State<ActivityWidget> {
   double _scale = 1.0; // Control scaling factor
 
   void _onTapDown(TapDownDetails details) {
