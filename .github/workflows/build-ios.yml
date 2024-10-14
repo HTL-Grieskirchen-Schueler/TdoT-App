@@ -1,11 +1,11 @@
-name: Build iOS
+name: Build Flutter Apps
 
 on:
   - push
   - pull_request
 
 jobs:
-  main:
+  setup:
     runs-on: macos-latest
     steps:
       - name: Clone repository
@@ -16,6 +16,26 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
-      - run: flutter build apk
-      - run: flutter build appbundle
+    outputs:
+      workspace: ${{ github.workspace }}
+
+  build_ios:
+    needs: setup
+    runs-on: macos-latest
+    steps:
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
+
+  build_apk:
+    needs: setup
+    runs-on: macos-latest
+    steps:
+      - name: Build APK
+        run: flutter build apk
+
+  build_appbundle:
+    needs: setup
+    runs-on: macos-latest
+    steps:
+      - name: Build App Bundle
+        run: flutter build appbundle
