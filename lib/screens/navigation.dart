@@ -18,22 +18,22 @@ class NavigationScreenState extends State<NavigationScreen> {
     _initializeNodes();
   }
 
-  void _initializeNodes() {
-    Node O = Node('oben', 175, 100);
-    Node L = Node('links', 50, 250);
-    Node M = Node('mitte', 175, 250);
-    Node R = Node('rechts', 285, 250);
-    Node U = Node('unten', 175, 380);
+    void _initializeNodes() {
+    Node topNode = Node('top', 120, 220);
+    Node leftNode = Node('left', 20, 310);
+    Node middleNode = Node('middle', 120, 310);
+    Node rightNode = Node('right', 220, 310);
+    Node bottomNode = Node('bottom', 120, 450);
 
-    O.neighbors.addAll([M]);
-    L.neighbors.addAll([M]);
-    M.neighbors.addAll([O, L, R, U]);
-    R.neighbors.addAll([M]);
-    U.neighbors.addAll([M]);
+    topNode.neighbors.addAll([middleNode]);
+    leftNode.neighbors.addAll([middleNode]);
+    middleNode.neighbors.addAll([topNode, leftNode, rightNode, bottomNode]);
+    rightNode.neighbors.addAll([middleNode]);
+    bottomNode.neighbors.addAll([middleNode]);
 
-    nodes.addAll([O, L, M, R, U]);
+    nodes.addAll([topNode, leftNode, middleNode, rightNode, bottomNode]);
 
-    path = aStarPathfinding(O, U);
+    path = aStarPathfinding(topNode, leftNode);
   }
 
   @override
