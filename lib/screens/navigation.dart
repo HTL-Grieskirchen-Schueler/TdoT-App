@@ -5,10 +5,10 @@ class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
 
   @override
-  State<NavigationScreen> createState() => NavigationScreenState();
+  State<NavigationScreen> createState() => _NavigationScreenState();
 }
 
-class NavigationScreenState extends State<NavigationScreen> {
+class _NavigationScreenState extends State<NavigationScreen> {
   List<Node> nodes = [];
   List<Node> path = [];
 
