@@ -5,18 +5,7 @@ on:
   - pull_request
 
 jobs:
-  setup:
-    runs-on: macos-latest
-    steps:
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-      - run: flutter pub get
-
   build_ios:
-    needs: setup
     runs-on: macos-latest
     steps:
       - name: Clone repository
@@ -31,7 +20,6 @@ jobs:
         run: flutter build ios --release --no-codesign
 
   build_apk:
-    needs: setup
     runs-on: macos-latest
     steps:
       - name: Clone repository
@@ -46,7 +34,6 @@ jobs:
         run: flutter build apk
 
   build_appbundle:
-    needs: setup
     runs-on: macos-latest
     steps:
       - name: Clone repository
