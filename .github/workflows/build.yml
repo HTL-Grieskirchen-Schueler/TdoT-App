@@ -19,7 +19,7 @@ jobs:
       - name: Build iOS
         run: flutter build ios --release --no-codesign
 
-  build_apk:
+  build_android:
     runs-on: macos-latest
     steps:
       - name: Clone repository
@@ -32,17 +32,5 @@ jobs:
       - run: flutter pub get
       - name: Build APK
         run: flutter build apk
-
-  build_appbundle:
-    runs-on: macos-latest
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-      - run: flutter pub get
       - name: Build App Bundle
         run: flutter build appbundle
