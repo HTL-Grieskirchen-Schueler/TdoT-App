@@ -8,8 +8,6 @@ jobs:
   setup:
     runs-on: macos-latest
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -21,6 +19,8 @@ jobs:
     needs: setup
     runs-on: macos-latest
     steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -34,6 +34,8 @@ jobs:
     needs: setup
     runs-on: macos-latest
     steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -47,6 +49,8 @@ jobs:
     needs: setup
     runs-on: macos-latest
     steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
