@@ -16,13 +16,17 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-    outputs:
-      workspace: ${{ github.workspace }}
 
   build_ios:
     needs: setup
     runs-on: macos-latest
     steps:
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
       - name: Build iOS
         run: flutter build ios --release --no-codesign
 
@@ -30,6 +34,12 @@ jobs:
     needs: setup
     runs-on: macos-latest
     steps:
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
       - name: Build APK
         run: flutter build apk
 
@@ -37,5 +47,11 @@ jobs:
     needs: setup
     runs-on: macos-latest
     steps:
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
       - name: Build App Bundle
         run: flutter build appbundle
