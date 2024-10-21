@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'package:tdot_gkr/screens/trial_day_registration.dart';
 import '../widgets/activity.dart';
 import 'navigation.dart';
 
@@ -45,8 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            Color.fromRGBO(63, 169, 211, 0.9),
-                            Color.fromARGB(255, 0, 59, 169),
+                            Color(0xE43FA9D3),
+                            Color(0xFF003BA9),
                           ],
                         ),
                       ),
@@ -119,7 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 title: "Anmelden",
                                 description: "Option 2",
                                 iconData: Icons.school,
-                                onTap: () => print("Option 2 tapped"),
+                                onTap: () => _navigateTo(context,
+                                    const TrialDayRegistrationScreen()),
                               ),
                               ActivityWidget(
                                 title: "Infos",
