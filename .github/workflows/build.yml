@@ -1,0 +1,36 @@
+name: Build Flutter Apps
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build_ios:
+    runs-on: macos-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
+
+  build_android:
+    runs-on: macos-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Build APK
+        run: flutter build apk
+      - name: Build App Bundle
+        run: flutter build appbundle
