@@ -1,43 +1,29 @@
 part of 'trial_day_registration.bloc.dart';
 
 abstract class TrialDayRegistrationState {
-  final String school;
-  final String name;
-  final String email;
-  final String phone;
-
-  const TrialDayRegistrationState({
-    this.school = '',
-    this.name = '',
-    this.email = '',
-    this.phone = '',
-  });
+  const TrialDayRegistrationState();
 }
 
-class TrialDayRegistrationLoading extends TrialDayRegistrationState {}
-
-class TrialDayRegistrationLoaded extends TrialDayRegistrationState {
-  final DateTime nextTrialDay;
-
-  TrialDayRegistrationLoaded(this.nextTrialDay);
+class TrialDayRegistrationInitialState extends TrialDayRegistrationState {
+  const TrialDayRegistrationInitialState();
 }
 
-class TrialDayRegistrationLoadingError extends TrialDayRegistrationState {
-  final String message;
-
-  TrialDayRegistrationLoadingError(this.message);
+class TrialDayRegistrationInitializedState extends TrialDayRegistrationState {
+  const TrialDayRegistrationInitializedState();
 }
 
-class TrialDayRegistrationRegistering extends TrialDayRegistrationState {}
-
-class TrialDayRegistrationRegistered extends TrialDayRegistrationState {
-  final TrialDayRegistration registration;
-
-  TrialDayRegistrationRegistered(this.registration);
+class TrialDayRegistrationSuccessState extends TrialDayRegistrationState {
+  const TrialDayRegistrationSuccessState();
 }
 
-class TrialDayRegistrationError extends TrialDayRegistrationState {
-  final String message;
+class TrialDayRegistrationFailureState extends TrialDayRegistrationState {
+  final String errorMessage;
 
-  TrialDayRegistrationError(this.message);
+  const TrialDayRegistrationFailureState(this.errorMessage);
+}
+
+class TrialDayRegistrationLoadingErrorState extends TrialDayRegistrationState {
+  final String errorMessage;
+
+  const TrialDayRegistrationLoadingErrorState(this.errorMessage);
 }

@@ -4,8 +4,6 @@ class TrialDayRegistration {
   final String email;
   final String phone;
 
-  String? error;
-
   TrialDayRegistration({
     required this.name,
     required this.school,

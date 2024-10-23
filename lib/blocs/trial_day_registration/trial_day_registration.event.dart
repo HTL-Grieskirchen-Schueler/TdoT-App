@@ -4,12 +4,12 @@ abstract class TrialDayRegistrationEvent {
   const TrialDayRegistrationEvent();
 }
 
-class Initialize extends TrialDayRegistrationEvent {}
+class InitializeEvent extends TrialDayRegistrationEvent {}
 
-class RegisterForTrialDay extends TrialDayRegistrationEvent {
+class RegisterEvent extends TrialDayRegistrationEvent {
   final TrialDayRegistration registration;
 
-  RegisterForTrialDay({
+  RegisterEvent({
     required this.registration,
   });
 }

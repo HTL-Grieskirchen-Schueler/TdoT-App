@@ -5,10 +5,28 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import '../blocs/trial_day_registration/trial_day_registration.bloc.dart';
 import '../models/trial_day_registration.model.dart';
 
-class RegistrationForm extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+class RegistrationForm extends StatefulWidget {
+  const RegistrationForm({super.key});
 
-  RegistrationForm({super.key});
+  @override
+  RegistrationFormState createState() => RegistrationFormState();
+}
+
+class RegistrationFormState extends State<RegistrationForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _schoolController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+
+  @override
+  void dispose() {
+    _schoolController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   Widget _buildTextFormField(String label,
       [String? Function(String?)? validator,
@@ -16,15 +34,20 @@ class RegistrationForm extends StatelessWidget {
       TextInputType? keyboardType]) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-        ),
-        autovalidateMode: AutovalidateMode.onUnfocus,
-        validator: validator,
-        controller: controller,
-        keyboardType: keyboardType,
+      child: Stack(
+        children: [
+          TextFormField(
+            decoration: InputDecoration(
+              labelText: label,
+              border: const OutlineInputBorder(),
+            ),
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: validator,
+            controller: controller,
+            keyboardType: keyboardType,
+          ),
+          const SizedBox(height: 16.0),
+        ],
       ),
     );
   }
@@ -32,22 +55,21 @@ class RegistrationForm extends StatelessWidget {
   void _submitForm(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
       final registration = TrialDayRegistration(
-        school: context.read<TrialDayRegistrationBloc>().state.school,
-        name: context.read<TrialDayRegistrationBloc>().state.name,
-        email: context.read<TrialDayRegistrationBloc>().state.email,
-        phone: context.read<TrialDayRegistrationBloc>().state.phone,
+        school: _schoolController.text,
+        name: _nameController.text,
+        email: _emailController.text,
+        phone: _phoneController.text,
       );
-      context
-          .read<TrialDayRegistrationBloc>()
-          .add(RegisterForTrialDay(registration: registration));
+
+      context.read<TrialDayRegistrationBloc>().add(
+            RegisterEvent(registration: registration),
+          );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
@@ -67,39 +89,25 @@ class RegistrationForm extends StatelessWidget {
                     "Schule",
                     FormBuilderValidators.required(
                         errorText: "Dieses Feld darf nicht leer sein!"),
-                    TextEditingController(
-                        text: context
-                            .read<TrialDayRegistrationBloc>()
-                            .state
-                            .school)),
+                    _schoolController),
                 _buildTextFormField(
                     "Name",
                     FormBuilderValidators.required(
                         errorText: "Dieses Feld darf nicht leer sein!"),
-                    TextEditingController(
-                        text: context
-                            .read<TrialDayRegistrationBloc>()
-                            .state
-                            .name)),
+                    _nameController),
                 _buildTextFormField(
                     "Email",
                     FormBuilderValidators.email(
                         errorText: "Bitte geben Sie eine valide Email ein!"),
-                    TextEditingController(
-                        text: context
-                            .read<TrialDayRegistrationBloc>()
-                            .state
-                            .email)),
+                    _emailController,
+                    TextInputType.emailAddress),
                 _buildTextFormField(
                     "Tel",
                     FormBuilderValidators.phoneNumber(
                         errorText:
                             "Bitte geben Sie eine valide Telefonnummer ein!"),
-                    TextEditingController(
-                        text: context
-                            .read<TrialDayRegistrationBloc>()
-                            .state
-                            .phone)),
+                    _phoneController,
+                    TextInputType.phone),
                 const SizedBox(height: 16.0),
                 Container(
                   decoration: BoxDecoration(
