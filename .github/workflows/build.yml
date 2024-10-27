@@ -18,9 +18,15 @@ jobs:
       - run: flutter pub get
       - name: Build iOS
         run: flutter build ios --release --no-codesign
+      - name: Upload iOS Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Releases
+          path: |
+            build/ios_build.tar.gz
 
   build_android:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -31,6 +37,13 @@ jobs:
           cache: true
       - run: flutter pub get
       - name: Build APK
-        run: flutter build apk
+        run: flutter build apk --release
       - name: Build App Bundle
         run: flutter build appbundle
+      - name: Upload Android Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Releases
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
