@@ -22,7 +22,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: |
-            build/ios/iphoneos/Runner.ipa
+            */**/*.ipa
 
   build_android:
     runs-on: ubuntu-latest
@@ -48,5 +48,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/bundle/release/app-release.aab
+            **/*.apk
+            **/*.aab
