@@ -27,6 +27,7 @@ jobs:
       - name: Upload iOS Artifacts
         uses: actions/upload-artifact@v4
         with:
+          name: IPA
           path: |
             Runner.ipa
 
