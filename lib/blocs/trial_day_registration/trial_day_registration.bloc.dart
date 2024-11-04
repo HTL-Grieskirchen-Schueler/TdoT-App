@@ -10,7 +10,6 @@ class TrialDayRegistrationBloc
     extends Bloc<TrialDayRegistrationEvent, TrialDayRegistrationState> {
   final TrialDayRepository _repository = TrialDayRepository();
 
-  @override
   TrialDayRegistrationBloc() : super(const TrialDayRegistrationInitialState()) {
     on<InitializeEvent>(_onInitialize);
     on<RegisterEvent>(_onRegisterForTrialDay);
@@ -18,17 +17,25 @@ class TrialDayRegistrationBloc
 
   void _onInitialize(
       InitializeEvent event, Emitter<TrialDayRegistrationState> emit) async {
-    emit(const TrialDayRegistrationInitializedState());
+    try {
+      final infoText = await _repository.getTrialDayInfo();
+      emit(TrialDayRegistrationInitializedState(infoText));
+    } catch (error) {
+      emit(TrialDayRegistrationLoadingErrorState(
+          error.toString().substring(11)));
+    }
   }
 
   void _onRegisterForTrialDay(
       RegisterEvent event, Emitter<TrialDayRegistrationState> emit) async {
+    final infoText = state.infoText;
+
     try {
       await _repository.registerForTrialDay(event.registration);
-      emit(const TrialDayRegistrationSuccessState());
+      emit(TrialDayRegistrationSuccessState(infoText));
     } catch (error) {
       emit(TrialDayRegistrationFailureState(
-          error.toString().substring(11))); // substring to remove "Exception: "
+          error.toString().substring(11), infoText));
     }
   }
 }

@@ -25,7 +25,9 @@ class TrialDayRegistrationScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => TrialDayRegistrationBloc()..add(InitializeEvent()),
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: const Text("Schnuppertag Anmeldung"),
+        ),
         body: BlocListener<TrialDayRegistrationBloc, TrialDayRegistrationState>(
           listener: (context, state) {
             if (state is TrialDayRegistrationSuccessState) {
@@ -43,7 +45,7 @@ class TrialDayRegistrationScreen extends StatelessWidget {
               if (state is TrialDayRegistrationInitializedState ||
                   state is TrialDayRegistrationSuccessState ||
                   state is TrialDayRegistrationFailureState) {
-                return const RegistrationForm();
+                return RegistrationForm(infoText: state.infoText);
               } else {
                 return const Center(child: CircularProgressIndicator());
               }

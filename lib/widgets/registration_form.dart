@@ -6,7 +6,9 @@ import '../blocs/trial_day_registration/trial_day_registration.bloc.dart';
 import '../models/trial_day_registration.model.dart';
 
 class RegistrationForm extends StatefulWidget {
-  const RegistrationForm({super.key});
+  final String infoText;
+
+  const RegistrationForm({super.key, required this.infoText});
 
   @override
   RegistrationFormState createState() => RegistrationFormState();
@@ -70,17 +72,20 @@ class RegistrationFormState extends State<RegistrationForm> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          const Text(
-            "Schnuppertag Anmeldung",
-            style: TextStyle(
-              fontSize: 32.0,
-              fontWeight: FontWeight.bold,
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Am xx.xx.xxxx",
+              style: TextStyle(
+                fontSize: 32.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          const SizedBox(height: 32.0),
+          const SizedBox(height: 16.0),
           Form(
             key: _formKey,
             child: Column(
@@ -137,19 +142,20 @@ class RegistrationFormState extends State<RegistrationForm> {
           ),
           Container(
             padding: const EdgeInsets.only(top: 32.0),
-            child: const Column(
+            alignment: Alignment.centerLeft,
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Wichtig!",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.red,
                   ),
                 ),
-                SizedBox(height: 8.0), // Add some space between the texts
+                const SizedBox(height: 8.0),
                 Text(
-                  "Am Tag der offene Tür sind dinge zu tun. lorem ipsum doremi ",
+                  widget.infoText,
                 ),
               ],
             ),
