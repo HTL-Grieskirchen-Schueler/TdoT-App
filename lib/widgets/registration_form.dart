@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -6,9 +7,11 @@ import '../blocs/trial_day_registration/trial_day_registration.bloc.dart';
 import '../models/trial_day_registration.model.dart';
 
 class RegistrationForm extends StatefulWidget {
+  final List<DateTime> dates;
   final String infoText;
 
-  const RegistrationForm({super.key, required this.infoText});
+  const RegistrationForm(
+      {super.key, required this.dates, required this.infoText});
 
   @override
   RegistrationFormState createState() => RegistrationFormState();
@@ -21,6 +24,8 @@ class RegistrationFormState extends State<RegistrationForm> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
 
+  late DateTime dropdownValue = widget.dates.first;
+
   @override
   void dispose() {
     _schoolController.dispose();
@@ -30,66 +35,37 @@ class RegistrationFormState extends State<RegistrationForm> {
     super.dispose();
   }
 
-  Widget _buildTextFormField(String label,
-      [String? Function(String?)? validator,
-      TextEditingController? controller,
-      TextInputType? keyboardType]) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Stack(
-        children: [
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: label,
-              border: const OutlineInputBorder(),
-            ),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: validator,
-            controller: controller,
-            keyboardType: keyboardType,
-          ),
-          const SizedBox(height: 16.0),
-        ],
-      ),
-    );
-  }
-
-  void _submitForm(BuildContext context) {
-    if (_formKey.currentState?.validate() ?? false) {
-      final registration = TrialDayRegistration(
-        school: _schoolController.text,
-        name: _nameController.text,
-        email: _emailController.text,
-        phone: _phoneController.text,
-      );
-
-      context.read<TrialDayRegistrationBloc>().add(
-            RegisterEvent(registration: registration),
-          );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Am xx.xx.xxxx",
-              style: TextStyle(
-                fontSize: 32.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const SizedBox(height: 16.0),
           Form(
             key: _formKey,
             child: Column(
               children: [
+                DropdownButtonHideUnderline(
+                  child: DropdownButtonFormField2<DateTime>(
+                    value: dropdownValue,
+                    decoration: const InputDecoration(
+                      labelText: "Datum",
+                      border: OutlineInputBorder(),
+                    ),
+                    items: widget.dates.map((date) {
+                      return DropdownMenuItem<DateTime>(
+                        value: date,
+                        child: Text("${date.day}.${date.month}.${date.year}"),
+                      );
+                    }).toList(),
+                    onChanged: (DateTime? value) {
+                      setState(() {
+                        dropdownValue = value!;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16.0),
                 _buildTextFormField(
                     "Schule",
                     FormBuilderValidators.required(
@@ -163,5 +139,44 @@ class RegistrationFormState extends State<RegistrationForm> {
         ],
       ),
     );
+  }
+
+  Widget _buildTextFormField(String label,
+      [String? Function(String?)? validator,
+      TextEditingController? controller,
+      TextInputType? keyboardType]) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Stack(
+        children: [
+          TextFormField(
+            decoration: InputDecoration(
+              labelText: label,
+              border: const OutlineInputBorder(),
+            ),
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: validator,
+            controller: controller,
+            keyboardType: keyboardType,
+          ),
+          const SizedBox(height: 16.0),
+        ],
+      ),
+    );
+  }
+
+  void _submitForm(BuildContext context) {
+    if (_formKey.currentState?.validate() ?? false) {
+      final registration = TrialDayRegistration(
+        school: _schoolController.text,
+        name: _nameController.text,
+        email: _emailController.text,
+        phone: _phoneController.text,
+      );
+
+      context.read<TrialDayRegistrationBloc>().add(
+            RegisterEvent(registration: registration),
+          );
+    }
   }
 }

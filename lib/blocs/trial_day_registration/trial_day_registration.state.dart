@@ -1,9 +1,10 @@
 part of 'trial_day_registration.bloc.dart';
 
-abstract class TrialDayRegistrationState {
-  final String infoText;
+abstract class TrialDayRegistrationState extends Equatable {
+  const TrialDayRegistrationState();
 
-  const TrialDayRegistrationState({this.infoText = ''});
+  @override
+  List<Object> get props => [];
 }
 
 class TrialDayRegistrationInitialState extends TrialDayRegistrationState {
@@ -11,24 +12,48 @@ class TrialDayRegistrationInitialState extends TrialDayRegistrationState {
 }
 
 class TrialDayRegistrationInitializedState extends TrialDayRegistrationState {
-  const TrialDayRegistrationInitializedState(String infoText)
-      : super(infoText: infoText);
+  final List<DateTime> dates;
+  final String infoText;
+
+  const TrialDayRegistrationInitializedState(
+      {required this.dates, required this.infoText})
+      : super();
+
+  @override
+  List<Object> get props => [dates, infoText];
 }
 
 class TrialDayRegistrationSuccessState extends TrialDayRegistrationState {
-  const TrialDayRegistrationSuccessState(String infoText)
-      : super(infoText: infoText);
+  final List<DateTime> dates;
+  final String infoText;
+
+  const TrialDayRegistrationSuccessState(
+      {required this.dates, required this.infoText})
+      : super();
+
+  @override
+  List<Object> get props => [dates, infoText];
 }
 
 class TrialDayRegistrationFailureState extends TrialDayRegistrationState {
+  final List<DateTime> dates;
+  final String infoText;
   final String errorMessage;
 
-  const TrialDayRegistrationFailureState(this.errorMessage, String infoText)
-      : super(infoText: infoText);
+  const TrialDayRegistrationFailureState(
+      {required this.dates, required this.infoText, required this.errorMessage})
+      : super();
+
+  @override
+  List<Object> get props => [dates, infoText, errorMessage];
 }
 
 class TrialDayRegistrationLoadingErrorState extends TrialDayRegistrationState {
   final String errorMessage;
 
-  const TrialDayRegistrationLoadingErrorState(this.errorMessage) : super();
+  const TrialDayRegistrationLoadingErrorState({required this.errorMessage})
+      : super();
+
+  @override
+  List<Object> get props => [errorMessage];
 }

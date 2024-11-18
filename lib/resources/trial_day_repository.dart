@@ -1,44 +1,64 @@
 import 'package:tdot_gkr/models/trial_day_registration.model.dart';
-
+import '../exceptions/http_not_ok_exception.dart';
 import 'api_provider.dart';
 
 class TrialDayRepository {
   final _provider = ApiProvider();
+  String? _cachedTrialDayInfo;
+  List<DateTime>? _cachedTrialDayDate;
 
   Future<String> getTrialDayInfo() async {
-    // try {
-    //   //TODO: use the correct endpoint
-    //   final response = await _provider.getRequest(endpoint: 'trialdays/info');
-    //   if (response.statusCode == null ||
-    //       response.statusCode! < 200 ||
-    //       response.statusCode! > 299) {
-    //     throw Exception(
-    //         "Fehlerhafte Antwort vom Server: ${response.statusCode}");
-    //   }
-    //   return response.data;
-    // } catch (e) {
-    //   throw Exception(
-    //       "Während des Abrufs der Informationen ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.");
-    // }
+    if (_cachedTrialDayInfo != null) {
+      return _cachedTrialDayInfo!;
+    }
+
+    // _cachedTrialDayInfo = await _handleRequest(() async {
+    //   var response = await _provider.getRequest(endpoint: 'trialdays/info');
+    //   return response.data['info'];
+    // });
 
     await Future.delayed(const Duration(seconds: 1));
+    _cachedTrialDayInfo = 'Test Info';
 
-    return "Test";
+    return _cachedTrialDayInfo!;
+  }
+
+  Future<List<DateTime>> getTrialDayDate() async {
+    if (_cachedTrialDayDate != null) {
+      return _cachedTrialDayDate!;
+    }
+
+    // _cachedTrialDayDate = await _handleRequest(() async {
+    //   var response = await _provider.getRequest(endpoint: 'trialdays/date');
+    //   return response.data;
+    // });
+
+    await Future.delayed(const Duration(seconds: 1));
+    _cachedTrialDayDate = [
+      DateTime(2023, 10, 1),
+      DateTime(2023, 11, 15),
+      DateTime(2023, 12, 20),
+    ];
+
+    return _cachedTrialDayDate!;
   }
 
   Future<void> registerForTrialDay(TrialDayRegistration registration) async {
-    try {
-      final response = await _provider.postRequest(
+    await _handleRequest(() async {
+      await _provider.postRequest(
           endpoint: 'trialdays/registration', data: registration.toJson());
-      if (response.statusCode == null ||
-          response.statusCode! < 200 ||
-          response.statusCode! > 299) {
-        throw Exception(
-            "Fehlerhafte Antwort vom Server: ${response.statusCode}");
-      }
+      return null;
+    });
+  }
+
+  Future<T> _handleRequest<T>(Future<T> Function() request) async {
+    try {
+      return await request();
+    } on HttpNotOkException catch (_) {
+      rethrow;
     } catch (e) {
       throw Exception(
-          "Während der Registrierung ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.");
+          'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
     }
   }
 }

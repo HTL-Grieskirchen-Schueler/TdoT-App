@@ -17,7 +17,7 @@ class TrialDayRegistrationScreen extends StatelessWidget {
       backgroundColor: backgroundColor,
       textColor: Colors.white,
       fontSize: 16.0,
-    );
+    ).whenComplete(() => TrialDayRegistrationBloc()..add(ToastCompleteEvent()));
   }
 
   @override
@@ -45,7 +45,9 @@ class TrialDayRegistrationScreen extends StatelessWidget {
               if (state is TrialDayRegistrationInitializedState ||
                   state is TrialDayRegistrationSuccessState ||
                   state is TrialDayRegistrationFailureState) {
-                return RegistrationForm(infoText: state.infoText);
+                final currentState = state as dynamic;
+                return RegistrationForm(
+                    dates: currentState.dates, infoText: currentState.infoText);
               } else {
                 return const Center(child: CircularProgressIndicator());
               }

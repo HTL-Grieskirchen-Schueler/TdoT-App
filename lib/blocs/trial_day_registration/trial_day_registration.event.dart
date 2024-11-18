@@ -13,3 +13,5 @@ class RegisterEvent extends TrialDayRegistrationEvent {
     required this.registration,
   });
 }
+
+class ToastCompleteEvent extends TrialDayRegistrationEvent {}

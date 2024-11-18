@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tdot_gkr/models/trial_day_registration.model.dart';
 
@@ -13,29 +14,42 @@ class TrialDayRegistrationBloc
   TrialDayRegistrationBloc() : super(const TrialDayRegistrationInitialState()) {
     on<InitializeEvent>(_onInitialize);
     on<RegisterEvent>(_onRegisterForTrialDay);
+    on<ToastCompleteEvent>(_onToastComplete);
   }
 
   void _onInitialize(
       InitializeEvent event, Emitter<TrialDayRegistrationState> emit) async {
     try {
       final infoText = await _repository.getTrialDayInfo();
-      emit(TrialDayRegistrationInitializedState(infoText));
+      final date = await _repository.getTrialDayDate();
+
+      emit(TrialDayRegistrationInitializedState(
+          dates: date, infoText: infoText));
     } catch (error) {
       emit(TrialDayRegistrationLoadingErrorState(
-          error.toString().substring(11)));
+          errorMessage: error.toString().substring(11)));
     }
   }
 
   void _onRegisterForTrialDay(
       RegisterEvent event, Emitter<TrialDayRegistrationState> emit) async {
-    final infoText = state.infoText;
-
+    final infoText = await _repository.getTrialDayInfo();
+    final date = await _repository.getTrialDayDate();
     try {
       await _repository.registerForTrialDay(event.registration);
-      emit(TrialDayRegistrationSuccessState(infoText));
+      emit(TrialDayRegistrationSuccessState(dates: date, infoText: infoText));
     } catch (error) {
       emit(TrialDayRegistrationFailureState(
-          error.toString().substring(11), infoText));
+          dates: date,
+          infoText: infoText,
+          errorMessage: error.toString().substring(11)));
     }
+  }
+
+  void _onToastComplete(
+      ToastCompleteEvent event, Emitter<TrialDayRegistrationState> emit) async {
+    final infoText = await _repository.getTrialDayInfo();
+    final date = await _repository.getTrialDayDate();
+    emit(TrialDayRegistrationInitializedState(dates: date, infoText: infoText));
   }
 }
