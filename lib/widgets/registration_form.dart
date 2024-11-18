@@ -1,17 +1,19 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
-import '../blocs/trial_day_registration/trial_day_registration.bloc.dart';
 import '../models/trial_day_registration.model.dart';
 
 class RegistrationForm extends StatefulWidget {
   final List<DateTime> dates;
   final String infoText;
+  final void Function(TrialDayRegistration) onSubmit;
 
   const RegistrationForm(
-      {super.key, required this.dates, required this.infoText});
+      {super.key,
+      required this.dates,
+      required this.infoText,
+      required this.onSubmit});
 
   @override
   RegistrationFormState createState() => RegistrationFormState();
@@ -174,9 +176,7 @@ class RegistrationFormState extends State<RegistrationForm> {
         phone: _phoneController.text,
       );
 
-      context.read<TrialDayRegistrationBloc>().add(
-            RegisterEvent(registration: registration),
-          );
+      widget.onSubmit(registration);
     }
   }
 }

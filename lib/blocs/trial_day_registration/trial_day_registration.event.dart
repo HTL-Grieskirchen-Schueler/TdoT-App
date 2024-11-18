@@ -8,9 +8,13 @@ class InitializeEvent extends TrialDayRegistrationEvent {}
 
 class RegisterEvent extends TrialDayRegistrationEvent {
   final TrialDayRegistration registration;
+  final void Function() onSuccess;
+  final Function onError;
 
   RegisterEvent({
     required this.registration,
+    required this.onSuccess,
+    required this.onError,
   });
 }
 

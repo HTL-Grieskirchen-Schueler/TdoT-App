@@ -10,7 +10,6 @@ part 'trial_day_registration.event.dart';
 class TrialDayRegistrationBloc
     extends Bloc<TrialDayRegistrationEvent, TrialDayRegistrationState> {
   final TrialDayRepository _repository = TrialDayRepository();
-
   TrialDayRegistrationBloc() : super(const TrialDayRegistrationInitialState()) {
     on<InitializeEvent>(_onInitialize);
     on<RegisterEvent>(_onRegisterForTrialDay);
@@ -33,16 +32,16 @@ class TrialDayRegistrationBloc
 
   void _onRegisterForTrialDay(
       RegisterEvent event, Emitter<TrialDayRegistrationState> emit) async {
-    final infoText = await _repository.getTrialDayInfo();
-    final date = await _repository.getTrialDayDate();
     try {
       await _repository.registerForTrialDay(event.registration);
-      emit(TrialDayRegistrationSuccessState(dates: date, infoText: infoText));
+      // emit(TrialDayRegistrationSuccessState(dates: date, infoText: infoText));
+      event.onSuccess();
     } catch (error) {
-      emit(TrialDayRegistrationFailureState(
-          dates: date,
-          infoText: infoText,
-          errorMessage: error.toString().substring(11)));
+      // emit(TrialDayRegistrationFailureState(
+      //     dates: date,
+      //     infoText: infoText,
+      //     errorMessage: error.toString().substring(11)));
+      event.onError(error.toString().substring(11));
     }
   }
 

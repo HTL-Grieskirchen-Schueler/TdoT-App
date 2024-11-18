@@ -23,31 +23,6 @@ class TrialDayRegistrationInitializedState extends TrialDayRegistrationState {
   List<Object> get props => [dates, infoText];
 }
 
-class TrialDayRegistrationSuccessState extends TrialDayRegistrationState {
-  final List<DateTime> dates;
-  final String infoText;
-
-  const TrialDayRegistrationSuccessState(
-      {required this.dates, required this.infoText})
-      : super();
-
-  @override
-  List<Object> get props => [dates, infoText];
-}
-
-class TrialDayRegistrationFailureState extends TrialDayRegistrationState {
-  final List<DateTime> dates;
-  final String infoText;
-  final String errorMessage;
-
-  const TrialDayRegistrationFailureState(
-      {required this.dates, required this.infoText, required this.errorMessage})
-      : super();
-
-  @override
-  List<Object> get props => [dates, infoText, errorMessage];
-}
-
 class TrialDayRegistrationLoadingErrorState extends TrialDayRegistrationState {
   final String errorMessage;
 

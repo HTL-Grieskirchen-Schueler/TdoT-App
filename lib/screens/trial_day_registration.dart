@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../blocs/trial_day_registration/trial_day_registration.bloc.dart';
+import '../models/trial_day_registration.model.dart';
 import '../widgets/registration_form.dart';
 
 class TrialDayRegistrationScreen extends StatelessWidget {
@@ -17,7 +18,12 @@ class TrialDayRegistrationScreen extends StatelessWidget {
       backgroundColor: backgroundColor,
       textColor: Colors.white,
       fontSize: 16.0,
-    ).whenComplete(() => TrialDayRegistrationBloc()..add(ToastCompleteEvent()));
+    );
+
+    //Toast.LENGTH_SHORT is 1 second long
+    Future.delayed(const Duration(seconds: 1), () {
+      TrialDayRegistrationBloc().add(ToastCompleteEvent());
+    });
   }
 
   @override
@@ -30,11 +36,7 @@ class TrialDayRegistrationScreen extends StatelessWidget {
         ),
         body: BlocListener<TrialDayRegistrationBloc, TrialDayRegistrationState>(
           listener: (context, state) {
-            if (state is TrialDayRegistrationSuccessState) {
-              _showToast("Anmeldung erfolgreich!", Colors.green);
-            } else if (state is TrialDayRegistrationFailureState) {
-              _showToast(state.errorMessage, Colors.red);
-            } else if (state is TrialDayRegistrationLoadingErrorState) {
+            if (state is TrialDayRegistrationLoadingErrorState) {
               _showToast(state.errorMessage, Colors.red);
               Navigator.of(context).pop();
             }
@@ -42,12 +44,24 @@ class TrialDayRegistrationScreen extends StatelessWidget {
           child:
               BlocBuilder<TrialDayRegistrationBloc, TrialDayRegistrationState>(
             builder: (context, state) {
-              if (state is TrialDayRegistrationInitializedState ||
-                  state is TrialDayRegistrationSuccessState ||
-                  state is TrialDayRegistrationFailureState) {
+              if (state is TrialDayRegistrationInitializedState) {
                 final currentState = state as dynamic;
                 return RegistrationForm(
-                    dates: currentState.dates, infoText: currentState.infoText);
+                  dates: currentState.dates,
+                  infoText: currentState.infoText,
+                  onSubmit: (TrialDayRegistration registration) {
+                    context.read<TrialDayRegistrationBloc>().add(
+                          RegisterEvent(
+                              registration: registration,
+                              onSuccess: () => _showToast(
+                                  "Anmeldung erfolgreich!", Colors.green),
+                              onError: (String? message) => _showToast(
+                                  message ??
+                                      "Etwas ist falsch gelaufen. Bitte versuchen Sie es später erneut.",
+                                  Colors.red)),
+                        );
+                  },
+                );
               } else {
                 return const Center(child: CircularProgressIndicator());
               }

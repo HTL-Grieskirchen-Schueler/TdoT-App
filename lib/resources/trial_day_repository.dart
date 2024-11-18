@@ -3,6 +3,15 @@ import '../exceptions/http_not_ok_exception.dart';
 import 'api_provider.dart';
 
 class TrialDayRepository {
+  TrialDayRepository._privateConstructor();
+
+  static final TrialDayRepository _instance =
+      TrialDayRepository._privateConstructor();
+
+  factory TrialDayRepository() {
+    return _instance;
+  }
+
   final _provider = ApiProvider();
   String? _cachedTrialDayInfo;
   List<DateTime>? _cachedTrialDayDate;
