@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: Column(
           children: <Widget>[
+            const SizedBox(height: 20),
             // Logo Section
             Expanded(
               flex: 1,
