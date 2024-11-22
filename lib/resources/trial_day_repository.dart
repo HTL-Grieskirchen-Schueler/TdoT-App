@@ -21,13 +21,10 @@ class TrialDayRepository {
       return _cachedTrialDayInfo!;
     }
 
-    // _cachedTrialDayInfo = await _handleRequest(() async {
-    //   var response = await _provider.getRequest(endpoint: 'trialdays/info');
-    //   return response.data['info'];
-    // });
-
-    await Future.delayed(const Duration(seconds: 1));
-    _cachedTrialDayInfo = 'Test Info';
+    _cachedTrialDayInfo = await _handleRequest(() async {
+      var response = await _provider.getRequest(endpoint: '/text/info');
+      return response.data;
+    });
 
     return _cachedTrialDayInfo!;
   }
@@ -37,17 +34,19 @@ class TrialDayRepository {
       return _cachedTrialDayDate!;
     }
 
-    // _cachedTrialDayDate = await _handleRequest(() async {
-    //   var response = await _provider.getRequest(endpoint: 'trialdays/date');
-    //   return response.data;
-    // });
+    var responseData = await _handleRequest(() async {
+      var response = await _provider.getRequest(endpoint: '/trialdays');
+      return response.data;
+    });
 
-    await Future.delayed(const Duration(seconds: 1));
-    _cachedTrialDayDate = [
-      DateTime(2023, 10, 1),
-      DateTime(2023, 11, 15),
-      DateTime(2023, 12, 20),
-    ];
+    try {
+      _cachedTrialDayDate = (responseData as List<dynamic>)
+          .map((dateString) => DateTime.parse(dateString as String))
+          .toList();
+    } catch (e) {
+      throw Exception(
+          'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+    }
 
     return _cachedTrialDayDate!;
   }
@@ -55,8 +54,8 @@ class TrialDayRepository {
   Future<void> registerForTrialDay(TrialDayRegistration registration) async {
     await _handleRequest(() async {
       await _provider.postRequest(
-          endpoint: 'trialdays/registration', data: registration.toJson());
-      return null;
+          endpoint: '/trialdays/registration', data: registration.toJson());
+      return;
     });
   }
 

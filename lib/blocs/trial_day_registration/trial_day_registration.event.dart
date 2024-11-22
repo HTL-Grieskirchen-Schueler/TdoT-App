@@ -9,7 +9,7 @@ class InitializeEvent extends TrialDayRegistrationEvent {}
 class RegisterEvent extends TrialDayRegistrationEvent {
   final TrialDayRegistration registration;
   final void Function() onSuccess;
-  final Function onError;
+  final void Function(String) onError;
 
   RegisterEvent({
     required this.registration,
@@ -17,5 +17,3 @@ class RegisterEvent extends TrialDayRegistrationEvent {
     required this.onError,
   });
 }
-
-class ToastCompleteEvent extends TrialDayRegistrationEvent {}

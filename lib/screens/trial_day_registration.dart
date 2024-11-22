@@ -9,21 +9,17 @@ import '../widgets/registration_form.dart';
 class TrialDayRegistrationScreen extends StatelessWidget {
   const TrialDayRegistrationScreen({super.key});
 
-  void _showToast(String message, Color backgroundColor) {
+  void _showToast(String message, Color backgroundColor,
+      {Toast toastLength = Toast.LENGTH_SHORT}) {
     Fluttertoast.showToast(
       msg: message,
-      toastLength: Toast.LENGTH_SHORT,
+      toastLength: toastLength,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: backgroundColor,
       textColor: Colors.white,
       fontSize: 16.0,
     );
-
-    //Toast.LENGTH_SHORT is 1 second long
-    Future.delayed(const Duration(seconds: 1), () {
-      TrialDayRegistrationBloc().add(ToastCompleteEvent());
-    });
   }
 
   @override
@@ -54,11 +50,10 @@ class TrialDayRegistrationScreen extends StatelessWidget {
                           RegisterEvent(
                               registration: registration,
                               onSuccess: () => _showToast(
-                                  "Anmeldung erfolgreich!", Colors.green),
-                              onError: (String? message) => _showToast(
-                                  message ??
-                                      "Etwas ist falsch gelaufen. Bitte versuchen Sie es später erneut.",
-                                  Colors.red)),
+                                  "Anmeldung erfolgreich!", Colors.green,
+                                  toastLength: Toast.LENGTH_LONG),
+                              onError: (String errorMessage) =>
+                                  _showToast(errorMessage, Colors.red)),
                         );
                   },
                 );

@@ -13,7 +13,6 @@ class TrialDayRegistrationBloc
   TrialDayRegistrationBloc() : super(const TrialDayRegistrationInitialState()) {
     on<InitializeEvent>(_onInitialize);
     on<RegisterEvent>(_onRegisterForTrialDay);
-    on<ToastCompleteEvent>(_onToastComplete);
   }
 
   void _onInitialize(
@@ -34,21 +33,9 @@ class TrialDayRegistrationBloc
       RegisterEvent event, Emitter<TrialDayRegistrationState> emit) async {
     try {
       await _repository.registerForTrialDay(event.registration);
-      // emit(TrialDayRegistrationSuccessState(dates: date, infoText: infoText));
       event.onSuccess();
     } catch (error) {
-      // emit(TrialDayRegistrationFailureState(
-      //     dates: date,
-      //     infoText: infoText,
-      //     errorMessage: error.toString().substring(11)));
       event.onError(error.toString().substring(11));
     }
-  }
-
-  void _onToastComplete(
-      ToastCompleteEvent event, Emitter<TrialDayRegistrationState> emit) async {
-    final infoText = await _repository.getTrialDayInfo();
-    final date = await _repository.getTrialDayDate();
-    emit(TrialDayRegistrationInitializedState(dates: date, infoText: infoText));
   }
 }
