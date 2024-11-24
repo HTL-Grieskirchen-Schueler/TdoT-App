@@ -170,6 +170,7 @@ class RegistrationFormState extends State<RegistrationForm> {
   void _submitForm(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
       final registration = TrialDayRegistration(
+        date: dropdownValue,
         school: _schoolController.text,
         name: _nameController.text,
         email: _emailController.text,

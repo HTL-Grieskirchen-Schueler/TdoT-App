@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 56),
+            const SizedBox(height: 80),
             Expanded(
               flex: 1,
               child: Container(
@@ -50,10 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const WaveAnimation(),
-                  const Expanded(
-                      child: Padding(
-                          padding: EdgeInsets.only(top: 80.0, bottom: 80.0),
-                          child: ActivityList())),
+                  const Padding(
+                      padding: EdgeInsets.only(top: 80.0, bottom: 80.0),
+                      child: ActivityList())
                 ],
               ),
             )
