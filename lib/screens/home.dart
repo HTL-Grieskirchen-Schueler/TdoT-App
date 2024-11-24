@@ -18,7 +18,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: <Widget>[
             const SizedBox(height: 20),
-            // Logo Section
             Expanded(
               flex: 1,
               child: Container(
@@ -29,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            // Main Content Section
             Expanded(
               flex: 4,
               child: Stack(

@@ -19,23 +19,23 @@ class ActivityWidget extends StatefulWidget {
 }
 
 class ActivityWidgetState extends State<ActivityWidget> {
-  double _scale = 1.0; // Control scaling factor
+  double _scale = 1.0;
 
   void _onTapDown(TapDownDetails details) {
     setState(() {
-      _scale = 0.95; // Scale down slightly
+      _scale = 0.95;
     });
   }
 
   void _onTapUp(TapUpDetails details) {
     setState(() {
-      _scale = 1.0; // Reset scale
+      _scale = 1.0;
     });
   }
 
   void _onTapCancel() {
     setState(() {
-      _scale = 1.0; // Reset scale
+      _scale = 1.0;
     });
   }
 

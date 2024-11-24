@@ -14,7 +14,6 @@ class ActivityList extends StatelessWidget {
     return Column(
       children: <Widget>[
         const SizedBox(height: 80),
-        // Activity Section
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
