@@ -12,40 +12,32 @@ class ActivityList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
-        const SizedBox(height: 80),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              ActivityWidget(
-                title: "Wegweiser",
-                description: "lorem lorem lorem lorem lorem lorem",
-                iconData: Icons.map,
-                onTap: () => _navigateTo(
-                  context,
-                  const NavigationScreen(),
-                ),
-              ),
-              ActivityWidget(
-                title: "Anmelden",
-                description: "Melden Sie sich für einen Schnuppertag an",
-                iconData: Icons.school,
-                onTap: () =>
-                    _navigateTo(context, const TrialDayRegistrationScreen()),
-              ),
-              ActivityWidget(
-                title: "Infos",
-                description: "Wichtige Informationen zum Aufnahmeverfahren",
-                iconData: Icons.info,
-                onTap: () => print("Option 3 tapped"),
-              ),
-            ],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          ActivityWidget(
+            title: "Wegweiser",
+            description: "lorem lorem lorem lorem lorem lorem",
+            iconData: Icons.map,
+            onTap: () => _navigateTo(
+              context,
+              const NavigationScreen(),
+            ),
           ),
-        ),
-        const SizedBox(height: 100),
-      ],
-    );
+          ActivityWidget(
+            title: "Anmelden",
+            description: "Melden Sie sich für einen Schnuppertag an",
+            iconData: Icons.school,
+            onTap: () =>
+                _navigateTo(context, const TrialDayRegistrationScreen()),
+          ),
+          ActivityWidget(
+            title: "Infos",
+            description: "Wichtige Informationen zum Aufnahmeverfahren",
+            iconData: Icons.info,
+            onTap: () => print("Option 3 tapped"),
+          ),
+        ],
+      );
   }
 
   void _navigateTo(BuildContext context, Widget screen) {
