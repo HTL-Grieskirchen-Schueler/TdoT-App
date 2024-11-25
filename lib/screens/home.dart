@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 80),
+            const SizedBox(height: 50),
             Expanded(
               flex: 1,
               child: Container(
