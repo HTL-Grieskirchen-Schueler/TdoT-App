@@ -12,32 +12,31 @@ class ActivityList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          ActivityWidget(
-            title: "Wegweiser",
-            description: "lorem lorem lorem lorem lorem lorem",
-            iconData: Icons.map,
-            onTap: () => _navigateTo(
-              context,
-              const NavigationScreen(),
-            ),
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        ActivityWidget(
+          title: "Wegweiser",
+          description: "Wir bringen dich an dein Ziel!",
+          iconData: Icons.map,
+          onTap: () => _navigateTo(
+            context,
+            const NavigationScreen(),
           ),
-          ActivityWidget(
-            title: "Anmelden",
-            description: "Melden Sie sich für einen Schnuppertag an",
-            iconData: Icons.school,
-            onTap: () =>
-                _navigateTo(context, const TrialDayRegistrationScreen()),
-          ),
-          ActivityWidget(
-            title: "Infos",
-            description: "Wichtige Informationen zum Aufnahmeverfahren",
-            iconData: Icons.info,
-            onTap: () => print("Option 3 tapped"),
-          ),
-        ],
-      );
+        ),
+        ActivityWidget(
+          title: "Schnuppertag",
+          description: "Tauche in den HTL-Alltag ein!",
+          iconData: Icons.history_edu,
+          onTap: () => _navigateTo(context, const TrialDayRegistrationScreen()),
+        ),
+        ActivityWidget(
+          title: "Schulanmeldung",
+          description: "Melde dich jetzt an!",
+          iconData: Icons.school,
+          onTap: () => print("Option 3 tapped"),
+        ),
+      ],
+    );
   }
 
   void _navigateTo(BuildContext context, Widget screen) {
