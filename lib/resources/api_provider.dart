@@ -11,24 +11,34 @@ class ApiProvider {
     }
     _dio.options.baseUrl = url!;
     _dio.options.validateStatus = (_) => true;
+    _dio.options.connectTimeout = const Duration(seconds: 5);
+    _dio.options.receiveTimeout = const Duration(seconds: 5);
   }
 
   Future<Response> getRequest({required String endpoint}) async {
-    final response = await _dio.get(endpoint);
-    if (response.statusCode != null &&
-        (response.statusCode! < 200 || response.statusCode! > 299)) {
-      if (response.data != null && response.data['detail'] != null) {
-        throw Exception(response.data['detail']);
-      }
+    try {
+      final response = await _dio.get(endpoint);
+      _validateResponse(response);
+      return response;
+    } catch (e) {
       throw Exception(
           'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
     }
-    return response;
   }
 
   Future<Response> postRequest(
       {required String endpoint, required Map<String, dynamic> data}) async {
-    final response = await _dio.post(endpoint, data: data);
+    try {
+      final response = await _dio.post(endpoint, data: data);
+      _validateResponse(response);
+      return response;
+    } catch (e) {
+      throw Exception(
+          'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+    }
+  }
+
+  void _validateResponse(Response response) {
     if (response.statusCode != null &&
         (response.statusCode! < 200 || response.statusCode! > 299)) {
       if (response.data != null && response.data['detail'] != null) {
@@ -37,6 +47,5 @@ class ApiProvider {
       throw Exception(
           'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
     }
-    return response;
   }
 }
