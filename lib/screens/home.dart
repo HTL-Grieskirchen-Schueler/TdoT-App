@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tdot_gkr/widgets/activity_list.dart';
 import 'package:tdot_gkr/widgets/wave_animation.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
