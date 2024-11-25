@@ -9,11 +9,12 @@ class RegistrationForm extends StatefulWidget {
   final String infoText;
   final void Function(TrialDayRegistration) onSubmit;
 
-  const RegistrationForm(
-      {super.key,
-      required this.dates,
-      required this.infoText,
-      required this.onSubmit});
+  const RegistrationForm({
+    super.key,
+    required this.dates,
+    required this.infoText,
+    required this.onSubmit,
+  });
 
   @override
   RegistrationFormState createState() => RegistrationFormState();
@@ -69,28 +70,35 @@ class RegistrationFormState extends State<RegistrationForm> {
                 ),
                 const SizedBox(height: 16.0),
                 _buildTextFormField(
-                    "Schule",
-                    FormBuilderValidators.required(
-                        errorText: "Dieses Feld darf nicht leer sein!"),
-                    _schoolController),
+                  "Schule",
+                  FormBuilderValidators.required(
+                    errorText: "Dieses Feld darf nicht leer sein!",
+                  ),
+                  _schoolController,
+                ),
                 _buildTextFormField(
-                    "Name",
-                    FormBuilderValidators.required(
-                        errorText: "Dieses Feld darf nicht leer sein!"),
-                    _nameController),
+                  "Name",
+                  FormBuilderValidators.required(
+                    errorText: "Dieses Feld darf nicht leer sein!",
+                  ),
+                  _nameController,
+                ),
                 _buildTextFormField(
-                    "Email",
-                    FormBuilderValidators.email(
-                        errorText: "Bitte geben Sie eine valide Email ein!"),
-                    _emailController,
-                    TextInputType.emailAddress),
+                  "Email",
+                  FormBuilderValidators.email(
+                    errorText: "Bitte geben Sie eine valide Email ein!",
+                  ),
+                  _emailController,
+                  TextInputType.emailAddress,
+                ),
                 _buildTextFormField(
-                    "Tel",
-                    FormBuilderValidators.phoneNumber(
-                        errorText:
-                            "Bitte geben Sie eine valide Telefonnummer ein!"),
-                    _phoneController,
-                    TextInputType.phone),
+                  "Tel",
+                  FormBuilderValidators.phoneNumber(
+                    errorText: "Bitte geben Sie eine valide Telefonnummer ein!",
+                  ),
+                  _phoneController,
+                  TextInputType.phone,
+                ),
                 const SizedBox(height: 16.0),
                 Container(
                   decoration: BoxDecoration(
@@ -106,8 +114,9 @@ class RegistrationFormState extends State<RegistrationForm> {
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent),
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
                     onPressed: () => _submitForm(context),
                     child: const Text(
                       'Anmelden',
@@ -137,16 +146,18 @@ class RegistrationFormState extends State<RegistrationForm> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildTextFormField(String label,
-      [String? Function(String?)? validator,
-      TextEditingController? controller,
-      TextInputType? keyboardType]) {
+  Widget _buildTextFormField(
+    String label, [
+    String? Function(String?)? validator,
+    TextEditingController? controller,
+    TextInputType? keyboardType,
+  ]) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Stack(

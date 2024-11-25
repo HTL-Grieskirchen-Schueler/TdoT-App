@@ -16,21 +16,32 @@ class TrialDayRegistrationBloc
   }
 
   void _onInitialize(
-      InitializeEvent event, Emitter<TrialDayRegistrationState> emit) async {
+    InitializeEvent event,
+    Emitter<TrialDayRegistrationState> emit,
+  ) async {
     try {
       final infoText = await _repository.getTrialDayInfo();
       final date = await _repository.getTrialDayDate();
 
-      emit(TrialDayRegistrationInitializedState(
-          dates: date, infoText: infoText));
+      emit(
+        TrialDayRegistrationInitializedState(
+          dates: date,
+          infoText: infoText,
+        ),
+      );
     } catch (error) {
-      emit(TrialDayRegistrationLoadingErrorState(
-          errorMessage: error.toString().substring(11)));
+      emit(
+        TrialDayRegistrationLoadingErrorState(
+          errorMessage: error.toString().substring(11),
+        ),
+      );
     }
   }
 
   void _onRegisterForTrialDay(
-      RegisterEvent event, Emitter<TrialDayRegistrationState> emit) async {
+    RegisterEvent event,
+    Emitter<TrialDayRegistrationState> emit,
+  ) async {
     try {
       await _repository.registerForTrialDay(event.registration);
       event.onSuccess();

@@ -35,12 +35,15 @@ class TrialDayRepository {
           .toList();
     } catch (e) {
       throw Exception(
-          'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+        'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
+      );
     }
   }
 
   Future<void> registerForTrialDay(TrialDayRegistration registration) async {
     await _provider.postRequest(
-        endpoint: '/trialdays/registration', data: registration.toJson());
+      endpoint: '/trialdays/registration',
+      data: registration.toJson(),
+    );
   }
 }

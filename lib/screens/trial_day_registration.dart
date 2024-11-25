@@ -9,8 +9,11 @@ import '../widgets/registration_form.dart';
 class TrialDayRegistrationScreen extends StatelessWidget {
   const TrialDayRegistrationScreen({super.key});
 
-  void _showToast(String message, Color backgroundColor,
-      {Toast toastLength = Toast.LENGTH_SHORT}) {
+  void _showToast(
+    String message,
+    Color backgroundColor, {
+    Toast toastLength = Toast.LENGTH_SHORT,
+  }) {
     Fluttertoast.showToast(
       msg: message,
       toastLength: toastLength,
@@ -48,12 +51,15 @@ class TrialDayRegistrationScreen extends StatelessWidget {
                   onSubmit: (TrialDayRegistration registration) {
                     context.read<TrialDayRegistrationBloc>().add(
                           RegisterEvent(
-                              registration: registration,
-                              onSuccess: () => _showToast(
-                                  "Anmeldung erfolgreich!", Colors.green,
-                                  toastLength: Toast.LENGTH_LONG),
-                              onError: (String errorMessage) =>
-                                  _showToast(errorMessage, Colors.red)),
+                            registration: registration,
+                            onSuccess: () => _showToast(
+                              "Anmeldung erfolgreich!",
+                              Colors.green,
+                              toastLength: Toast.LENGTH_LONG,
+                            ),
+                            onError: (String errorMessage) =>
+                                _showToast(errorMessage, Colors.red),
+                          ),
                         );
                   },
                 );

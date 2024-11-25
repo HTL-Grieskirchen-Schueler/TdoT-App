@@ -22,19 +22,23 @@ class ApiProvider {
       return response;
     } catch (e) {
       throw Exception(
-          'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+        'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
+      );
     }
   }
 
-  Future<Response> postRequest(
-      {required String endpoint, required Map<String, dynamic> data}) async {
+  Future<Response> postRequest({
+    required String endpoint,
+    required Map<String, dynamic> data,
+  }) async {
     try {
       final response = await _dio.post(endpoint, data: data);
       _validateResponse(response);
       return response;
     } catch (e) {
       throw Exception(
-          'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+        'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
+      );
     }
   }
 
@@ -45,7 +49,8 @@ class ApiProvider {
         throw Exception(response.data['detail']);
       }
       throw Exception(
-          'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+        'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
+      );
     }
   }
 }

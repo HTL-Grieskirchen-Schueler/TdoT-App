@@ -46,11 +46,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const WaveAnimation(),
                   const Padding(
-                      padding: EdgeInsets.only(top: 80.0, bottom: 80.0),
-                      child: ActivityList())
+                    padding: EdgeInsets.only(top: 80.0, bottom: 80.0),
+                    child: ActivityList(),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
