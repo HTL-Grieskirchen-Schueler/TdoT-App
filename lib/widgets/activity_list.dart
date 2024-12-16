@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../screens/information.dart';
 import '../screens/navigation.dart';
 import '../screens/trial_day_registration.dart';
 import 'activity.dart';
@@ -33,7 +34,7 @@ class ActivityList extends StatelessWidget {
           title: "Schulanmeldung",
           description: "Melde dich jetzt an!",
           iconData: Icons.school,
-          onTap: () => print("Option 3 tapped"),
+          onTap: () => _navigateTo(context, const InformationScreen()),
         ),
       ],
     );
