@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tdot_gkr/blocs/information/information_bloc.dart';
 
+import '../widgets/text_section.dart';
+
 class InformationScreen extends StatelessWidget {
   const InformationScreen({super.key});
 
@@ -25,10 +27,22 @@ class InformationScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is InformationInitializedState) {
                 final currentState = state as dynamic;
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(currentState.infoText),
+                return SingleChildScrollView(
+                  child: Column(
+                    children: currentState.infoSections.map<Widget>((section) {
+                      return Column(
+                        children: [
+                          TextSectionWidget(section: section),
+                          if (currentState.infoSections.last != section)
+                            const Divider(
+                              color: Colors.grey,
+                              thickness: 1,
+                              indent: 10,
+                              endIndent: 10,
+                            ),
+                        ],
+                      );
+                    }).toList(),
                   ),
                 );
               } else {

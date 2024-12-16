@@ -10,14 +10,14 @@ sealed class InformationState extends Equatable {
 final class InformationInitial extends InformationState {}
 
 class InformationInitializedState extends InformationState {
-  final String infoText;
+  final List<InformationSection> infoSections;
 
   const InformationInitializedState({
-    required this.infoText,
+    required this.infoSections,
   }) : super();
 
   @override
-  List<Object> get props => [infoText];
+  List<Object> get props => [infoSections];
 }
 
 class InformationLoadingErrorState extends InformationState {

@@ -1,3 +1,5 @@
+import 'package:tdot_gkr/models/information/section.model.dart';
+
 import 'api_provider.dart';
 
 class InformationRepositroy {
@@ -11,16 +13,19 @@ class InformationRepositroy {
   }
 
   final _provider = ApiProvider();
-  String? _cachedInformationText;
+  List<InformationSection>? _cachedInformationSections;
 
-  Future<String> getInformationText() async {
-    if (_cachedInformationText != null) {
-      return _cachedInformationText!;
+  Future<List<InformationSection>> getInformationSections() async {
+    if (_cachedInformationSections != null) {
+      return _cachedInformationSections!;
     }
 
-    var response = await _provider.getRequest(endpoint: '/text/someText');
-    _cachedInformationText = response.data;
+    var response = await _provider.getRequest(endpoint: '/text/registration');
 
-    return _cachedInformationText!;
+    _cachedInformationSections = (response.data as List)
+        .map((item) => InformationSection.fromJson(item))
+        .toList();
+
+    return _cachedInformationSections!;
   }
 }
