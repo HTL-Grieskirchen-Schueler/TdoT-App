@@ -29,16 +29,18 @@ class NavigationScreen extends StatelessWidget {
                     fit: BoxFit.contain,
                   ),
                   CustomPaint(
-                    size: Size(MediaQuery.of(context).size.width,
-                        MediaQuery.of(context).size.height),
+                    size: Size(
+                      MediaQuery.of(context).size.width,
+                      MediaQuery.of(context).size.height,
+                    ),
                     painter: PathPainter([], state.nodes),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Node startNode = state.nodes.firstWhere(
-                          (node) => node.label == 'top');
-                      Node endNode = state.nodes.firstWhere(
-                          (node) => node.label == 'left');
+                      Node startNode =
+                          state.nodes.firstWhere((node) => node.label == 'top');
+                      Node endNode = state.nodes
+                          .firstWhere((node) => node.label == 'left');
                       context
                           .read<PathfindingBloc>()
                           .add(FindPathEvent(startNode, endNode));
@@ -49,7 +51,9 @@ class NavigationScreen extends StatelessWidget {
               );
             } else if (state is NodesInitialized || state is PathFound) {
               List<Node> path = state is PathFound ? state.path : [];
-              List<Node> nodes = state is NodesInitialized ? state.nodes : (state as PathFound).path;
+              List<Node> nodes = state is NodesInitialized
+                  ? state.nodes
+                  : (state as PathFound).path;
 
               return Stack(
                 children: [
@@ -60,8 +64,10 @@ class NavigationScreen extends StatelessWidget {
                     fit: BoxFit.contain,
                   ),
                   CustomPaint(
-                    size: Size(MediaQuery.of(context).size.width,
-                        MediaQuery.of(context).size.height),
+                    size: Size(
+                      MediaQuery.of(context).size.width,
+                      MediaQuery.of(context).size.height,
+                    ),
                     painter: PathPainter(path, nodes),
                   ),
                   if (state is NodesInitialized)
@@ -70,9 +76,13 @@ class NavigationScreen extends StatelessWidget {
                       right: 20,
                       child: ElevatedButton(
                         onPressed: () {
-                          Node startNode = state.nodes.firstWhere((node) => node.label == 'top');
-                          Node endNode = state.nodes.firstWhere((node) => node.label == 'left');
-                          context.read<PathfindingBloc>().add(FindPathEvent(startNode, endNode));
+                          Node startNode = state.nodes
+                              .firstWhere((node) => node.label == 'top');
+                          Node endNode = state.nodes
+                              .firstWhere((node) => node.label == 'left');
+                          context
+                              .read<PathfindingBloc>()
+                              .add(FindPathEvent(startNode, endNode));
                         },
                         child: const Text('Find Path'),
                       ),

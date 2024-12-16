@@ -15,9 +15,10 @@ class TrialDayRegistrationInitializedState extends TrialDayRegistrationState {
   final List<DateTime> dates;
   final String infoText;
 
-  const TrialDayRegistrationInitializedState(
-      {required this.dates, required this.infoText})
-      : super();
+  const TrialDayRegistrationInitializedState({
+    required this.dates,
+    required this.infoText,
+  }) : super();
 
   @override
   List<Object> get props => [dates, infoText];

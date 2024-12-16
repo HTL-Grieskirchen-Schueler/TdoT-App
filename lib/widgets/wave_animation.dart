@@ -17,7 +17,7 @@ class WaveAnimation extends StatelessWidget {
           for (var i in [
             [6, 15.0, 1.0],
             [4, 7.5, 0.5],
-            [3, 0.0, 0.3]
+            [3, 0.0, 0.3],
           ])
             LoopAnimationBuilder<double>(
               tween: Tween(

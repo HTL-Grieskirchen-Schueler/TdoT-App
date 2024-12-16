@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tdot_gkr/widgets/activity_list.dart';
 import 'package:tdot_gkr/widgets/wave_animation.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +12,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 80),
+            const SizedBox(height: 50),
             Expanded(
               flex: 1,
               child: Container(
@@ -51,11 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const WaveAnimation(),
                   const Padding(
-                      padding: EdgeInsets.only(top: 80.0, bottom: 80.0),
-                      child: ActivityList())
+                    padding: EdgeInsets.only(top: 80.0, bottom: 80.0),
+                    child: ActivityList(),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
