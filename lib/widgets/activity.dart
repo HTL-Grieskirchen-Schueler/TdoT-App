@@ -67,7 +67,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                       widget.title,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 30,
+                        fontSize: 24,
                       ),
                     ),
                     Padding(
@@ -76,7 +76,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                         widget.description,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 16,
                         ),
                       ),
                     ),
