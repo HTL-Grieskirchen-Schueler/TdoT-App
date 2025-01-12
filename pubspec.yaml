@@ -45,6 +45,7 @@ dependencies:
   fluttertoast: ^8.2.8
   equatable: ^2.0.7
   dropdown_button2: ^2.3.9
+  sliding_up_panel: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:
