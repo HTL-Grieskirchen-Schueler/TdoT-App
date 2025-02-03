@@ -20,7 +20,7 @@ class ApiProvider {
       final response = await _dio.get(endpoint);
       _validateResponse(response);
       return response;
-    } catch (e) {
+    } on DioException {
       throw Exception(
         'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
       );
@@ -35,7 +35,7 @@ class ApiProvider {
       final response = await _dio.post(endpoint, data: data);
       _validateResponse(response);
       return response;
-    } catch (e) {
+    } on DioException {
       throw Exception(
         'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
       );
@@ -45,8 +45,8 @@ class ApiProvider {
   void _validateResponse(Response response) {
     if (response.statusCode != null &&
         (response.statusCode! < 200 || response.statusCode! > 299)) {
-      if (response.data != null && response.data['detail'] != null) {
-        throw Exception(response.data['detail']);
+      if (response.data != null) {
+        throw Exception(response.data);
       }
       throw Exception(
         'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
