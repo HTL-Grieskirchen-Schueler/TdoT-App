@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:tdot_gkr/blocs/navigation/navigation_bloc.dart';
+import 'package:tdot_gkr/blocs/navigation/navigation_state.dart';
 import 'package:tdot_gkr/models/activity.model.dart';
 import 'package:tdot_gkr/resources/navigation_repository.dart';
 import 'package:tdot_gkr/widgets/event_list.dart';
@@ -11,26 +14,36 @@ class NavigationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final panelController = PanelController();
-    const double tabBarHeight = 80;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Wegweiser'),
-      ),
-      body: SlidingUpPanel(
-        controller: panelController,
-        maxHeight: MediaQuery.of(context).size.height - tabBarHeight,
-        panelBuilder: (scrollController) => buildSlidingPanel(scrollController),
-        body: const NavigationBodyWidget(),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+    return BlocProvider(
+      create: (context) => NavigationBloc(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Wegweiser'),
+        ),
+        body: BlocListener<NavigationBloc, NavigationState>(
+          listener: (context, state) {
+            if (state is PanelClosed) {
+              panelController.close();
+            }
+          },
+          child: SlidingUpPanel(
+            controller: panelController,
+            maxHeight: MediaQuery.of(context).size.height - 80,
+            panelBuilder: (scrollController) =>
+                buildSlidingPanel(scrollController, panelController),
+            body: const NavigationBodyWidget(),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget buildSlidingPanel(ScrollController scrollController) {
+  Widget buildSlidingPanel(ScrollController scrollController, PanelController panelController) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -80,8 +93,7 @@ class NavigationScreen extends StatelessWidget {
                   ),
                 );
               }
-              final activities = snapshot.data!;
-              return EventListWidget(activities: activities);
+              return EventListWidget(activities: snapshot.data!);
             },
           ),
         ),
