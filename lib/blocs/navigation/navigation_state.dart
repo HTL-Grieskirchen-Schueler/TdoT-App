@@ -10,12 +10,21 @@ abstract class NavigationState extends Equatable {
 class NavigationInitial extends NavigationState {}
 
 class NavigatingToEvent extends NavigationState {
-  final String eventName;
+  final String room;
 
-  const NavigatingToEvent(this.eventName);
+  const NavigatingToEvent(this.room);
 
   @override
-  List<Object> get props => [eventName];
+  List<Object> get props => [room];
+}
+
+class SvgUpdated extends NavigationState {
+  final String svgData;
+
+  const SvgUpdated(this.svgData);
+
+  @override
+  List<Object> get props => [svgData];
 }
 
 class PanelClosed extends NavigationState {}

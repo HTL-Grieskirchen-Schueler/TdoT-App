@@ -1,4 +1,4 @@
-import 'package:tdot_gkr/models/activity.model.dart';
+import 'package:tdot_gkr/models/event.model.dart';
 import 'package:tdot_gkr/models/node.model.dart';
 import 'api_provider.dart';
 
@@ -14,14 +14,14 @@ class NavigationRepository {
 
   final _provider = ApiProvider();
 
-  Future<List<Activity>> getActivities() async {
+  Future<List<Event>> getActivities() async {
     var response = await _provider.getRequest(endpoint: '/navigation/activities');
     var responseData = response.data;
 
     try {
       if (responseData is List) {
         return responseData
-            .map((activityJson) => Activity.fromJson(activityJson))
+            .map((activityJson) => Event.fromJson(activityJson))
             .toList();
       } else {
         throw Exception('Unexpected response format: Expected a list of activities.');

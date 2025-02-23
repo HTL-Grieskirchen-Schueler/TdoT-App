@@ -1,16 +1,19 @@
-class Activity {
+class Event {
   final String name;
   final String description;
+  final String room;
 
-  Activity({
+  Event({
     required this.name,
     required this.description,
+    required this.room,
   });
 
-  factory Activity.fromJson(Map<String, dynamic> json) {
-    return Activity(
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
       name: json['name'],
       description: json['description'],
+      room: json['room'],
     );
   }
 
@@ -18,6 +21,7 @@ class Activity {
     return {
       'name': name,
       'description': description,
+      'room': room,
     };
   }
 }

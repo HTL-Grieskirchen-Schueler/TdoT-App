@@ -8,12 +8,23 @@ abstract class NavigationEvent extends Equatable {
 }
 
 class StartNavigationEvent extends NavigationEvent {
-  final String eventName;
+  final String room;
+  final int floor;
 
-  const StartNavigationEvent(this.eventName);
+  const StartNavigationEvent(this.room, this.floor);
 
   @override
-  List<Object> get props => [eventName];
+  List<Object> get props => [room, floor];
+}
+
+
+class UpdateSvgWithPathEvent extends NavigationEvent {
+  final String updatedSvg;
+
+  const UpdateSvgWithPathEvent(this.updatedSvg);
+
+  @override
+  List<Object> get props => [updatedSvg];
 }
 
 class ClosePanelEvent extends NavigationEvent {}

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tdot_gkr/blocs/navigation/navigation_bloc.dart';
 import 'package:tdot_gkr/blocs/navigation/navigation_event.dart';
-import 'package:tdot_gkr/models/activity.model.dart';
+import 'package:tdot_gkr/models/event.model.dart';
 import 'package:tdot_gkr/widgets/event.dart';
 
 class EventListWidget extends StatelessWidget {
-  final List<Activity> activities;
+  final List<Event> activities;
 
   const EventListWidget({super.key, required this.activities});
 
@@ -20,7 +20,7 @@ class EventListWidget extends StatelessWidget {
           name: activity.name,
           description: activity.description,
           onPressed: () {
-            context.read<NavigationBloc>().add(StartNavigationEvent(activity.name));
+            context.read<NavigationBloc>().add(StartNavigationEvent(activity.room, 0));
             context.read<NavigationBloc>().add(ClosePanelEvent());
           },
         );

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:tdot_gkr/blocs/navigation/navigation_bloc.dart';
 import 'package:tdot_gkr/blocs/navigation/navigation_state.dart';
-import 'package:tdot_gkr/models/activity.model.dart';
+import 'package:tdot_gkr/models/event.model.dart';
 import 'package:tdot_gkr/resources/navigation_repository.dart';
 import 'package:tdot_gkr/widgets/event_list.dart';
 import 'package:tdot_gkr/widgets/navigation.dart';
@@ -63,7 +63,7 @@ class NavigationScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Flexible(
-          child: FutureBuilder<List<Activity>>(
+          child: FutureBuilder<List<Event>>(
             future: NavigationRepository().getActivities(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
