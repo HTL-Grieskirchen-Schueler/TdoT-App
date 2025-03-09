@@ -20,8 +20,9 @@ class EventListWidget extends StatelessWidget {
           name: activity.name,
           description: activity.description,
           onPressed: () {
+            print("start");
             context.read<NavigationBloc>().add(StartNavigationEvent(activity.room, 0));
-            context.read<NavigationBloc>().add(ClosePanelEvent());
+            
           },
         );
       },

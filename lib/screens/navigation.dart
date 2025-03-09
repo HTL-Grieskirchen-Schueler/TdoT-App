@@ -15,27 +15,31 @@ class NavigationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final panelController = PanelController();
 
-    return BlocProvider(
-      create: (context) => NavigationBloc(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Wegweiser'),
-        ),
-        body: BlocListener<NavigationBloc, NavigationState>(
-          listener: (context, state) {
-            if (state is PanelClosed) {
-              panelController.close();
-            }
-          },
-          child: SlidingUpPanel(
-            controller: panelController,
-            maxHeight: MediaQuery.of(context).size.height - 80,
-            panelBuilder: (scrollController) =>
-                buildSlidingPanel(scrollController, panelController),
-            body: const NavigationBodyWidget(),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+    return RepositoryProvider(
+      create: (context) => NavigationRepository(),
+      child: BlocProvider(
+        create: (context) => NavigationBloc(context.read<NavigationRepository>()),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Wegweiser'),
+          ),
+          body: BlocListener<NavigationBloc, NavigationState>(
+            listener: (context, state) {
+              if (state is PanelClosed) {
+                print("panel");
+                panelController.close();
+              }
+            },
+            child: SlidingUpPanel(
+              controller: panelController,
+              maxHeight: MediaQuery.of(context).size.height - 80,
+              panelBuilder: (scrollController) =>
+                  buildSlidingPanel(scrollController, panelController),
+              body: const NavigationBodyWidget(),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
             ),
           ),
         ),

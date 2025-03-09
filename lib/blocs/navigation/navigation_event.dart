@@ -17,14 +17,22 @@ class StartNavigationEvent extends NavigationEvent {
   List<Object> get props => [room, floor];
 }
 
+class PositionChangedEvent extends NavigationEvent {
+  final int x;
+  final int y;
+  final int floor;
 
-class UpdateSvgWithPathEvent extends NavigationEvent {
-  final String updatedSvg;
-
-  const UpdateSvgWithPathEvent(this.updatedSvg);
+  const PositionChangedEvent(this.x, this.y, this.floor);
 
   @override
-  List<Object> get props => [updatedSvg];
+  List<Object> get props => [x, y, floor];
 }
 
-class ClosePanelEvent extends NavigationEvent {}
+class FetchSvgEvent extends NavigationEvent {
+  final int floor;
+
+  const FetchSvgEvent(this.floor);
+
+  @override
+  List<Object> get props => [floor];
+}

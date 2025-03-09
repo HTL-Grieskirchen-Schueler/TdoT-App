@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tdot_gkr/blocs/navigation/navigation_bloc.dart';
 import 'package:tdot_gkr/blocs/navigation/navigation_event.dart';
 import 'package:tdot_gkr/blocs/navigation/navigation_state.dart';
-import 'package:tdot_gkr/resources/navigation_repository.dart';
 
 class NavigationBodyWidget extends StatefulWidget {
   const NavigationBodyWidget({super.key});
@@ -14,38 +13,24 @@ class NavigationBodyWidget extends StatefulWidget {
 }
 
 class NavigationBodyWidgetState extends State<NavigationBodyWidget> {
-  late Future<String> _svgFuture;
   int _selectedFloor = 0;
 
   @override
   void initState() {
     super.initState();
-    _loadSvg();
-  }
-
-  void _loadSvg() {
-    setState(() {
-      _svgFuture = NavigationRepository().getSvg(_selectedFloor);
-    });
-  }
-
-  void _startNavigation(String eventName) {
-    context.read<NavigationBloc>().add(StartNavigationEvent(eventName, _selectedFloor));
+    // Fetch the SVG for the initial floor when the widget is first loaded
+    context.read<NavigationBloc>().add(FetchSvgEvent(_selectedFloor));
+    context.read<NavigationBloc>().add(const PositionChangedEvent(100, 100, 0));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NavigationBloc(),
-      child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
-          if (state is SvgUpdated) {
-            setState(() {
-              _svgFuture = Future.value(state.svgData);
-            });
-          }
-        },
-        child: Column(
+    return BlocConsumer<NavigationBloc, NavigationState>(
+      listener: (context, state) {
+        // Handle state changes if needed
+      },
+      builder: (context, state) {
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
@@ -81,7 +66,8 @@ class NavigationBodyWidgetState extends State<NavigationBodyWidget> {
                           setState(() {
                             _selectedFloor = newFloor;
                           });
-                          _loadSvg();
+                          // Fetch the SVG for the new floor
+                          context.read<NavigationBloc>().add(FetchSvgEvent(newFloor));
                         }
                       },
                     ),
@@ -98,39 +84,43 @@ class NavigationBodyWidgetState extends State<NavigationBodyWidget> {
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 2),
                 ),
-                child: FutureBuilder<String>(
-                  future: _svgFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return const Center(
-                        child: Text('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.'),
-                      );
-                    } else if (snapshot.hasData) {
-                      return InteractiveViewer(
-                        boundaryMargin: const EdgeInsets.all(100),
-                        minScale: 0.5,
-                        maxScale: 5.0,
-                        child: SvgPicture.string(
-                          snapshot.data!,
-                          fit: BoxFit.contain,
-                        ),
-                      );
-                    } else {
-                      return const Center(child: Text('Keine Daten verfügbar.'));
-                    }
-                  },
-                ),
+                child: _buildSvgView(state),
               ),
             ),
-            ElevatedButton(
-              onPressed: () => _startNavigation("e15"), // Example event
-              child: const Text("Navigate to e15"),
-            ),
           ],
-        ),
-      ),
+        );
+      },
     );
+  }
+
+  Widget _buildSvgView(NavigationState state) {
+    if (state is PositionUpdated) {
+      // Display the updated SVG with the red dot
+      return InteractiveViewer(
+        boundaryMargin: const EdgeInsets.all(100),
+        minScale: 0.5,
+        maxScale: 5.0,
+        child: SvgPicture.string(
+          state.svgData,
+          fit: BoxFit.contain,
+        ),
+      );
+    } else if (state is SvgUpdated) {
+      // Display the SVG without the red dot
+      return InteractiveViewer(
+        boundaryMargin: const EdgeInsets.all(100),
+        minScale: 0.5,
+        maxScale: 5.0,
+        child: SvgPicture.string(
+          state.svgData,
+          fit: BoxFit.contain,
+        ),
+      );
+    } else if (state is NavigationInitial) {
+      // Display a loading indicator while waiting for the initial SVG
+      return const Center(child: CircularProgressIndicator());
+    } else {
+      return const Center(child: Text('Waiting for position update...'));
+    }
   }
 }
