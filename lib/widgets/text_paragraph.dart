@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:tdot_gkr/models/information/paragraph.model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,21 +26,25 @@ class _TextParagraphWidgetState extends State<TextParagraphWidget> {
                   widget.paragraph.heading!,
                   style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
                 ),
-              const SizedBox(height: 8.0),
-              Text(
-                widget.paragraph.text,
-                style: CupertinoTheme.of(context).textTheme.textStyle,
-              ),
               if (widget.paragraph.link?.isNotEmpty ?? false) ...[
                 const SizedBox(height: 8.0),
-                ElevatedButton(
+                CupertinoButton(
                   onPressed: () => {
                     launchUrl(
-                      Uri.parse("https://google.com"),
+                      Uri.parse(widget.paragraph.link!),
                       mode: LaunchMode.externalApplication,
                     ),
                   },
-                  child: const Text('Learn more'),
+                  child: Text(
+                    widget.paragraph.text,
+                    style: CupertinoTheme.of(context).textTheme.textStyle,
+                  ),
+                ),
+              ] else ...[
+                const SizedBox(height: 8.0),
+                Text(
+                  widget.paragraph.text,
+                  style: CupertinoTheme.of(context).textTheme.textStyle,
                 ),
               ],
             ],
