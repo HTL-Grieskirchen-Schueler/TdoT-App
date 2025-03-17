@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:tdot_gkr/models/information/paragraph.model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,7 +34,7 @@ class _TextParagraphWidgetState extends State<TextParagraphWidget> {
               ),
               if (widget.paragraph.link?.isNotEmpty ?? false) ...[
                 const SizedBox(height: 8.0),
-                TextButton(
+                ElevatedButton(
                   onPressed: () => {
                     launchUrl(
                       Uri.parse("https://google.com"),
