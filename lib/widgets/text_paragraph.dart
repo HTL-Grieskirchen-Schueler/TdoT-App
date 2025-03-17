@@ -28,7 +28,7 @@ class _TextParagraphWidgetState extends State<TextParagraphWidget> {
                 ),
               if (widget.paragraph.link?.isNotEmpty ?? false) ...[
                 const SizedBox(height: 8.0),
-                CupertinoButton(
+                CupertinoButton.tinted(
                   onPressed: () => {
                     launchUrl(
                       Uri.parse(widget.paragraph.link!),
