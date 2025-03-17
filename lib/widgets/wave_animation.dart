@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:simple_animations/simple_animations.dart';
 
@@ -38,8 +38,8 @@ class WaveAnimation extends StatelessWidget {
                         "assets/wave.svg",
                       ),
                       colorFilter: ColorFilter.mode(
-                        Colors.white.withOpacity(
-                          i[2] as double,
+                        CupertinoColors.white.withValues(
+                          alpha: i[2] as double,
                         ),
                         BlendMode.srcIn,
                       ),

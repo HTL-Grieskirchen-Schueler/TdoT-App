@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'screens/home.dart';
@@ -15,12 +15,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF003BA9)),
-        useMaterial3: true,
+    return const CupertinoApp(
+      theme: CupertinoThemeData(
+        brightness: Brightness.light,
+        primaryColor: CupertinoColors.black,
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }
