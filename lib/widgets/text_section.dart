@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tdot_gkr/models/information/section.model.dart';
 import 'package:tdot_gkr/widgets/text_paragraph.dart';
 
@@ -22,7 +22,16 @@ class _TextSectionWidgetState extends State<TextSectionWidget> {
           Center(
             child: Text(
               widget.section.heading,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: CupertinoTheme.of(context)
+                  .textTheme
+                  .navLargeTitleTextStyle
+                  .copyWith(
+                    fontSize: CupertinoTheme.of(context)
+                            .textTheme
+                            .navLargeTitleTextStyle
+                            .fontSize! *
+                        0.9,
+                  ),
             ),
           ),
           ...widget.section.paragraphs.map<Widget>((paragraph) {

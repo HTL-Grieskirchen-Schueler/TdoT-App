@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NavigationBodyWidget extends StatelessWidget {
@@ -16,7 +16,7 @@ class NavigationBodyWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.height * 0.7,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2),
+              border: Border.all(color: CupertinoColors.black, width: 2),
             ),
             child: InteractiveViewer(
               boundaryMargin: const EdgeInsets.all(100),

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class EventWidget extends StatelessWidget {
   final String name;
@@ -12,11 +12,11 @@ class EventWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: CupertinoColors.white,
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: const [
           BoxShadow(
-            color: Colors.grey,
+            color: CupertinoColors.systemGrey,
             blurRadius: 6,
             offset: Offset(0, 2),
           ),
@@ -37,7 +37,7 @@ class EventWidget extends StatelessWidget {
             description,
             style: const TextStyle(
               fontSize: 14,
-              color: Colors.grey,
+              color: CupertinoColors.systemGrey,
             ),
           ),
         ],

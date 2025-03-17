@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tdot_gkr/models/information/paragraph.model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,15 +24,12 @@ class _TextParagraphWidgetState extends State<TextParagraphWidget> {
               if (widget.paragraph.heading?.isNotEmpty ?? false)
                 Text(
                   widget.paragraph.heading!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold),
+                  style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
                 ),
               const SizedBox(height: 8.0),
               Text(
                 widget.paragraph.text,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: CupertinoTheme.of(context).textTheme.textStyle,
               ),
               if (widget.paragraph.link?.isNotEmpty ?? false) ...[
                 const SizedBox(height: 8.0),
@@ -52,24 +49,38 @@ class _TextParagraphWidgetState extends State<TextParagraphWidget> {
             Positioned(
               top: 0,
               right: 0,
-              child: Tooltip(
-                message: widget.paragraph.info!,
-                showDuration: const Duration(
-                  seconds: 5,
-                ),
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.0,
-                ),
-                triggerMode: TooltipTriggerMode.tap,
-                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: CupertinoButton(
+                padding: EdgeInsets.zero,
+                minSize: 0,
+                onPressed: () {
+                  showCupertinoModalPopup(
+                    context: context,
+                    builder: (BuildContext context) => CupertinoPopupSurface(
+                      child: Container(
+                        padding: const EdgeInsets.all(16.0),
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              widget.paragraph.info!,
+                              style: CupertinoTheme.of(context)
+                                  .textTheme
+                                  .textStyle,
+                            ),
+                            const SizedBox(height: 16.0),
+                            CupertinoButton(
+                              child: const Text('Close'),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
                 child: const Icon(
-                  Icons.info_outline,
+                  CupertinoIcons.info,
                   size: 20,
                 ),
               ),
