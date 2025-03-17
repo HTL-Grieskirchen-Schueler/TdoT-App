@@ -27,24 +27,7 @@ class HomeScreen extends StatelessWidget {
               flex: 4,
               child: Stack(
                 children: [
-                  Positioned(
-                    top: 1,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xE43FA9D3),
-                            Color(0xFF003BA9),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const WaveAnimation(),
+                  WaveAnimation(),
                   const Padding(
                     padding: EdgeInsets.only(top: 80.0, bottom: 80.0),
                     child: ActivityList(),
