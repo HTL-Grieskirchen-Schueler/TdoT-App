@@ -81,14 +81,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  dropdown_button2:
-    dependency: "direct main"
-    description:
-      name: dropdown_button2
-      sha256: b0fe8d49a030315e9eef6c7ac84ca964250155a6224d491c1365061bc974a9e1
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.9"
   equatable:
     dependency: "direct main"
     description:
@@ -301,14 +293,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
-  simple:
-    dependency: "direct main"
-    description:
-      name: simple
-      sha256: "083569e701306be91bc2b683388793a88bb9eea76954adaaf051fb9d5d3232a3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.7"
   simple_animations:
     dependency: "direct main"
     description:
@@ -317,14 +301,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0"
-  simple_dart:
-    dependency: transitive
-    description:
-      name: simple_dart
-      sha256: "44e3caa16e7a6cfa962291ea917f0ad5da9b45b36b0bf13ad7b1adc74716eba5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.4"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -394,14 +370,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
-  validators:
-    dependency: transitive
-    description:
-      name: validators
-      sha256: "884515951f831a9c669a41ed6c4d3c61c2a0e8ec6bca761a4480b28e99cecf5d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   vector_graphics:
     dependency: transitive
     description:

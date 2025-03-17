@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tdot_gkr/models/activity.model.dart';
-import 'package:tdot_gkr/widgets/event.dart'; 
+import 'package:tdot_gkr/widgets/event.dart';
 
 class EventListWidget extends StatelessWidget {
-  final List<Activity> activities;  
+  final List<Activity> activities;
 
   const EventListWidget({super.key, required this.activities});
 

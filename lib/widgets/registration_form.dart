@@ -1,5 +1,4 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../models/trial_day_registration.model.dart';
@@ -27,6 +26,8 @@ class RegistrationFormState extends State<RegistrationForm> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
 
+  bool _validateForm = false;
+
   late DateTime dropdownValue = widget.dates.first;
 
   @override
@@ -48,24 +49,87 @@ class RegistrationFormState extends State<RegistrationForm> {
             key: _formKey,
             child: Column(
               children: [
-                DropdownButtonHideUnderline(
-                  child: DropdownButtonFormField2<DateTime>(
-                    value: dropdownValue,
-                    decoration: const InputDecoration(
-                      labelText: "Datum",
-                      border: OutlineInputBorder(),
-                    ),
-                    items: widget.dates.map((date) {
-                      return DropdownMenuItem<DateTime>(
-                        value: date,
-                        child: Text("${date.day}.${date.month}.${date.year}"),
-                      );
-                    }).toList(),
-                    onChanged: (DateTime? value) {
-                      setState(() {
-                        dropdownValue = value!;
-                      });
-                    },
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Datum",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: CupertinoColors.systemGrey,
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      GestureDetector(
+                        onTap: () {
+                          showCupertinoModalPopup(
+                            context: context,
+                            builder: (BuildContext context) => Container(
+                              height: 216,
+                              padding: const EdgeInsets.only(top: 6.0),
+                              margin: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom,
+                              ),
+                              color: CupertinoColors.systemBackground
+                                  .resolveFrom(context),
+                              child: SafeArea(
+                                top: false,
+                                child: CupertinoPicker(
+                                  magnification: 1.22,
+                                  squeeze: 1.2,
+                                  useMagnifier: true,
+                                  itemExtent: 32.0,
+                                  scrollController: FixedExtentScrollController(
+                                    initialItem:
+                                        widget.dates.indexOf(dropdownValue),
+                                  ),
+                                  onSelectedItemChanged: (int selectedItem) {
+                                    setState(() {
+                                      dropdownValue =
+                                          widget.dates[selectedItem];
+                                    });
+                                  },
+                                  children: widget.dates.map((date) {
+                                    return Center(
+                                      child: Text(
+                                        "${date.day}.${date.month}.${date.year}",
+                                        style: const TextStyle(fontSize: 16),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: CupertinoColors.systemGrey4,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${dropdownValue.day}.${dropdownValue.month}.${dropdownValue.year}",
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                              const Icon(
+                                CupertinoIcons.calendar,
+                                color: CupertinoColors.systemGrey,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 16.0),
@@ -112,15 +176,19 @@ class RegistrationFormState extends State<RegistrationForm> {
                     ),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
+                  child: CupertinoButton(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12.0,
+                      horizontal: 24.0,
                     ),
                     onPressed: () => _submitForm(context),
+                    color: CupertinoColors.transparent,
                     child: const Text(
                       'Anmelden',
-                      style: TextStyle(color: Colors.white, fontSize: 16.0),
+                      style: TextStyle(
+                        color: CupertinoColors.white,
+                        fontSize: 16.0,
+                      ),
                     ),
                   ),
                 ),
@@ -137,7 +205,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                   "Wichtig!",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.red,
+                    color: CupertinoColors.systemRed,
                   ),
                 ),
                 const SizedBox(height: 8.0),
@@ -159,27 +227,86 @@ class RegistrationFormState extends State<RegistrationForm> {
     TextInputType? keyboardType,
   ]) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Stack(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: label,
-              border: const OutlineInputBorder(),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              color: CupertinoColors.systemGrey,
             ),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: validator,
-            controller: controller,
-            keyboardType: keyboardType,
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 8.0),
+          CupertinoTextField(
+            controller: controller,
+            padding: const EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: CupertinoColors.systemGrey4,
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            keyboardType: keyboardType,
+            onChanged: (value) {
+              if (validator != null && _validateForm) {
+                // Only force validation on change if we're in validation mode
+                setState(() {});
+              }
+            },
+          ),
+          if (validator != null)
+            Builder(
+              builder: (context) {
+                final errorText = validator(controller?.text);
+                if ((_validateForm || controller?.text.isNotEmpty == true) &&
+                    errorText != null) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 6.0),
+                    child: Text(
+                      errorText,
+                      style: const TextStyle(
+                        color: CupertinoColors.systemRed,
+                        fontSize: 12.0,
+                      ),
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
         ],
       ),
     );
   }
 
   void _submitForm(BuildContext context) {
-    if (_formKey.currentState?.validate() ?? false) {
+    setState(() {
+      _validateForm = true;
+    });
+
+    final schoolError = FormBuilderValidators.required(
+      errorText: "Dieses Feld darf nicht leer sein!",
+    )(_schoolController.text);
+
+    final nameError = FormBuilderValidators.required(
+      errorText: "Dieses Feld darf nicht leer sein!",
+    )(_nameController.text);
+
+    final emailError = FormBuilderValidators.email(
+      errorText: "Bitte geben Sie eine valide Email ein!",
+    )(_emailController.text);
+
+    final phoneError = FormBuilderValidators.phoneNumber(
+      errorText: "Bitte geben Sie eine valide Telefonnummer ein!",
+    )(_phoneController.text);
+
+    if (schoolError == null &&
+        nameError == null &&
+        emailError == null &&
+        phoneError == null) {
       final registration = TrialDayRegistration(
         date: dropdownValue,
         school: _schoolController.text,

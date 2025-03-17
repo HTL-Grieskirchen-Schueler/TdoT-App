@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:tdot_gkr/models/activity.model.dart';
 import 'package:tdot_gkr/resources/navigation_repository.dart';
@@ -13,18 +13,21 @@ class NavigationScreen extends StatelessWidget {
     final panelController = PanelController();
     const double tabBarHeight = 80;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Wegweiser'),
+    return CupertinoPageScaffold(
+      navigationBar: const CupertinoNavigationBar(
+        middle: Text('Wegweiser'),
       ),
-      body: SlidingUpPanel(
-        controller: panelController,
-        maxHeight: MediaQuery.of(context).size.height - tabBarHeight,
-        panelBuilder: (scrollController) => buildSlidingPanel(scrollController),
-        body: const NavigationBodyWidget(),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+      child: SafeArea(
+        child: SlidingUpPanel(
+          controller: panelController,
+          maxHeight: MediaQuery.of(context).size.height - tabBarHeight,
+          panelBuilder: (scrollController) =>
+              buildSlidingPanel(scrollController),
+          body: const NavigationBodyWidget(),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
         ),
       ),
     );
@@ -54,7 +57,7 @@ class NavigationScreen extends StatelessWidget {
             future: NavigationRepository().getActivities(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: CupertinoActivityIndicator());
               }
               if (snapshot.hasError) {
                 return Padding(
@@ -63,7 +66,7 @@ class NavigationScreen extends StatelessWidget {
                     snapshot.error.toString().substring(11),
                     style: const TextStyle(
                       fontSize: 16,
-                      color: Colors.red,
+                      color: CupertinoColors.destructiveRed,
                     ),
                   ),
                 );
@@ -75,7 +78,7 @@ class NavigationScreen extends StatelessWidget {
                     'Keine Events verfügbar',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
+                      color: CupertinoColors.systemGrey,
                     ),
                   ),
                 );
@@ -92,7 +95,7 @@ class NavigationScreen extends StatelessWidget {
   Widget buildDragIcon() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: CupertinoColors.systemGrey,
         borderRadius: BorderRadius.circular(8),
       ),
       width: 40,

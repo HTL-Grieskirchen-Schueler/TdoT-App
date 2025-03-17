@@ -47,6 +47,6 @@ class TrialDayRegistrationBloc
       event.onSuccess();
     } catch (error) {
       event.onError(error.toString().substring(11));
-    }
+    } finally {}
   }
 }
