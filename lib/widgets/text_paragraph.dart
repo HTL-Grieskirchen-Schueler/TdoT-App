@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tdot_gkr/models/information/paragraph.model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TextParagraphWidget extends StatefulWidget {
   final InformationParagraph paragraph;
@@ -33,6 +34,18 @@ class _TextParagraphWidgetState extends State<TextParagraphWidget> {
                 widget.paragraph.text,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
+              if (widget.paragraph.link?.isNotEmpty ?? false) ...[
+                const SizedBox(height: 8.0),
+                TextButton(
+                  onPressed: () => {
+                    launchUrl(
+                      Uri.parse("https://google.com"),
+                      mode: LaunchMode.externalApplication,
+                    ),
+                  },
+                  child: const Text('Learn more'),
+                ),
+              ],
             ],
           ),
           if (widget.paragraph.info?.isNotEmpty ?? false)
