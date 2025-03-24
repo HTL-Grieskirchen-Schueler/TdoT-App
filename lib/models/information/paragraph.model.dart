@@ -1,11 +1,11 @@
 class InformationParagraph {
-  String text;
+  String? text;
   String? heading;
   String? info;
   String? link;
 
   InformationParagraph({
-    required this.text,
+    this.text,
     this.heading,
     this.info,
     this.link,
