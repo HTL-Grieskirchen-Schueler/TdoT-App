@@ -1,16 +1,82 @@
-# tdot_gkr
+# TdoT-App (Tag der offenen Tür)
 
-A new Flutter project.
+A Flutter application for managing open house day registration and information at HTL Grieskirchen.
 
-## Getting Started
+## Project Overview
 
-This project is a starting point for a Flutter application.
+This application provides a digital platform for students and parents to:
+- Get information about the school and registration process
+- Navigate through the school during open house day
+- Register for trial days
+- View important events and activities
 
-A few resources to get you started if this is your first Flutter project:
+## Architecture
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+The app follows Clean Architecture principles with the BLoC (Business Logic Component) pattern for state management:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+lib/
+├── blocs/         # Business logic components
+├── models/        # Data models
+├── resources/     # Repositories and API connections
+├── screens/       # UI screens
+└── widgets/       # Reusable UI components
+```
+
+### Key Design Patterns
+
+- **BLoC Pattern**: Separates business logic from UI
+- **Repository Pattern**: Abstracts data sources from the business logic
+- **Singleton Pattern**: Used in repositories for shared instances
+- **Factory Pattern**: Used for model construction from JSON
+
+## Features
+
+### Information Display
+- School information sections with formatted text
+- Paragraphs with headings and detailed information
+
+### Trial Day Registration
+- Form for registering to trial days
+- Date selection with date picker
+- Form validation
+- Success/error handling with toast messages
+
+### Navigation
+- Interactive floor plan using SVG
+- List of activities and their locations
+
+## State Management
+
+The app uses the BLoC pattern with three main components:
+- **Events**: Trigger state changes
+- **States**: Represent the current app state
+- **BLoC**: Processes events and emits new states
+
+### Example Flow:
+1. UI sends an event to the BLoC
+2. BLoC processes the event, possibly accessing repositories
+3. BLoC emits a new state
+4. UI rebuilds based on the new state
+
+## API Integration
+
+The app communicates with a backend server using:
+- Dio for HTTP requests
+- Repository pattern for data access
+- Error handling with user-friendly messages
+
+## iOS Deployment
+
+The app is configured for iOS deployment with:
+- Proper bundle identifier (at.htl-grieskirchen.tdot)
+- Manual signing with provisioning profile
+- Minimum iOS version 12.0
+
+### Secrets
+
+The following secrets need to be configured in Github
+- IOS_BUILD_CERTIFICATE_BASE64
+- IOS_BUILD_CERTIFICATE_PASSWORD
+- IOS_GITHUB_KEYCHAIN_PASSWORD
+- IOS_MOBILE_PROVISIONING_PROFILE_BASE64
