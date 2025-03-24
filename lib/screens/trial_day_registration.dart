@@ -17,6 +17,7 @@ class TrialDayRegistrationScreen extends StatefulWidget {
 class TrialDayRegistrationScreenState
     extends State<TrialDayRegistrationScreen> {
   bool _isSubmitting = false;
+  final _registrationFormKey = GlobalKey<RegistrationFormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,7 @@ class TrialDayRegistrationScreenState
                     if (state is TrialDayRegistrationInitializedState) {
                       final currentState = state as dynamic;
                       return RegistrationForm(
+                        key: _registrationFormKey,
                         dates: currentState.dates,
                         infoText: currentState.infoText,
                         onSubmit: (TrialDayRegistration registration) {
@@ -67,6 +69,7 @@ class TrialDayRegistrationScreenState
                                     setState(() {
                                       _isSubmitting = false;
                                     });
+                                    _registrationFormKey.currentState?.reset();
                                   },
                                   onError: (String errorMessage) {
                                     _showToast(

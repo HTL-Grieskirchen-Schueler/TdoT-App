@@ -30,6 +30,17 @@ class RegistrationFormState extends State<RegistrationForm> {
 
   late DateTime dropdownValue = widget.dates.first;
 
+  void reset() {
+    _schoolController.clear();
+    _nameController.clear();
+    _emailController.clear();
+    _phoneController.clear();
+
+    setState(() {
+      _validateForm = false;
+    });
+  }
+
   @override
   void dispose() {
     _schoolController.dispose();
