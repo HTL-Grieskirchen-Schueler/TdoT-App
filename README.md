@@ -59,6 +59,31 @@ The app uses the BLoC pattern with three main components:
 3. BLoC emits a new state
 4. UI rebuilds based on the new state
 
+## Repository Pattern
+
+The Repository Pattern serves as an abstraction layer between data sources and the application's business logic.
+
+### Implementation in TdoT-App:
+- **Single Point of Data Access**: All data operations go through repositories
+- **Data Source Abstraction**: BLoCs don't need to know where data comes from
+- **Caching Strategy**: Repositories implement in-memory caching only for relatively static data that doesn't change frequently
+
+### Structure:
+```
+resources/
+├── api_provider.dart       # Handles HTTP communication
+├── trial_day_repository.dart   # Trial day data operations
+├── information_repository.dart # School information operations
+└── navigation_repository.dart  # Navigation and activities data
+```
+
+### Example Flow:
+1. BLoC requests data from a repository
+2. Repository checks if requested data is cached
+3. If not cached, repository fetches data from API provider
+4. Repository processes and returns data to the BLoC
+5. Repository optionally caches the data for future requests
+
 ## API Integration
 
 The app communicates with a backend server using:
