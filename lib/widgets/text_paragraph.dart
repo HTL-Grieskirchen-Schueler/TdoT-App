@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tdot_gkr/models/information/paragraph.model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TextParagraphWidget extends StatefulWidget {
   final InformationParagraph paragraph;
@@ -25,11 +26,27 @@ class _TextParagraphWidgetState extends State<TextParagraphWidget> {
                   widget.paragraph.heading!,
                   style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
                 ),
-              const SizedBox(height: 8.0),
-              Text(
-                widget.paragraph.text,
-                style: CupertinoTheme.of(context).textTheme.textStyle,
-              ),
+              if (widget.paragraph.link?.isNotEmpty ?? false) ...[
+                const SizedBox(height: 8.0),
+                CupertinoButton.tinted(
+                  onPressed: () => {
+                    launchUrl(
+                      Uri.parse(widget.paragraph.link!),
+                      mode: LaunchMode.externalApplication,
+                    ),
+                  },
+                  child: Text(
+                    widget.paragraph.text ?? '',
+                    style: CupertinoTheme.of(context).textTheme.textStyle,
+                  ),
+                ),
+              ] else ...[
+                const SizedBox(height: 8.0),
+                Text(
+                  widget.paragraph.text ?? '',
+                  style: CupertinoTheme.of(context).textTheme.textStyle,
+                ),
+              ],
             ],
           ),
           if (widget.paragraph.info?.isNotEmpty ?? false)

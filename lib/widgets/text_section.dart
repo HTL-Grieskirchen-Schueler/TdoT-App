@@ -19,21 +19,23 @@ class _TextSectionWidgetState extends State<TextSectionWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Text(
-              widget.section.heading,
-              style: CupertinoTheme.of(context)
-                  .textTheme
-                  .navLargeTitleTextStyle
-                  .copyWith(
-                    fontSize: CupertinoTheme.of(context)
-                            .textTheme
-                            .navLargeTitleTextStyle
-                            .fontSize! *
-                        0.9,
-                  ),
+          if (widget.section.heading != null) ...[
+            Center(
+              child: Text(
+                widget.section.heading!,
+                style: CupertinoTheme.of(context)
+                    .textTheme
+                    .navLargeTitleTextStyle
+                    .copyWith(
+                      fontSize: CupertinoTheme.of(context)
+                              .textTheme
+                              .navLargeTitleTextStyle
+                              .fontSize! *
+                          0.9,
+                    ),
+              ),
             ),
-          ),
+          ],
           ...widget.section.paragraphs.map<Widget>((paragraph) {
             return TextParagraphWidget(paragraph: paragraph);
           }),
