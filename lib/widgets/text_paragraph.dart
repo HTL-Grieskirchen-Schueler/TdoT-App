@@ -36,14 +36,14 @@ class _TextParagraphWidgetState extends State<TextParagraphWidget> {
                     ),
                   },
                   child: Text(
-                    widget.paragraph.text,
+                    widget.paragraph.text ?? '',
                     style: CupertinoTheme.of(context).textTheme.textStyle,
                   ),
                 ),
               ] else ...[
                 const SizedBox(height: 8.0),
                 Text(
-                  widget.paragraph.text,
+                  widget.paragraph.text ?? '',
                   style: CupertinoTheme.of(context).textTheme.textStyle,
                 ),
               ],
