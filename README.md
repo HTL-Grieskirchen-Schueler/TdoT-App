@@ -1,3 +1,5 @@
+Ihr könnt mich (Stefan Wiesinger / Product Owner) unter stefanwiesinger2005@gmail.com erreichen.
+
 # TdoT-App (Tag der offenen Tür)
 
 A Flutter application for managing open house day registration and information at HTL Grieskirchen.
