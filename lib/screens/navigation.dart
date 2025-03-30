@@ -2,19 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:tdot_gkr/blocs/navigation/navigation_bloc.dart';
+import 'package:tdot_gkr/blocs/navigation/navigation_event.dart';
 import 'package:tdot_gkr/blocs/navigation/navigation_state.dart';
 import 'package:tdot_gkr/models/event.model.dart';
 import 'package:tdot_gkr/resources/navigation_repository.dart';
-import 'package:tdot_gkr/widgets/event_list.dart';
+import 'package:tdot_gkr/widgets/event.dart';
 import 'package:tdot_gkr/widgets/navigation.dart';
 
-class NavigationScreen extends StatelessWidget {
+class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final panelController = PanelController();
+  State<NavigationScreen> createState() => _NavigationScreenState();
+}
 
+class _NavigationScreenState extends State<NavigationScreen> {
+  final PanelController _panelController = PanelController();
+  late Future<List<Event>> _activitiesFuture;
+
+  final int _currentX = 120;
+  final int _currentY = 350;
+
+  @override
+  void initState() {
+    super.initState();
+    _activitiesFuture = NavigationRepository().getActivities();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return RepositoryProvider(
       create: (context) => NavigationRepository(),
       child: BlocProvider(
@@ -26,15 +42,14 @@ class NavigationScreen extends StatelessWidget {
           body: BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
               if (state is PanelClosed) {
-                print("panel");
-                panelController.close();
+                _panelController.close();
               }
             },
             child: SlidingUpPanel(
-              controller: panelController,
+              controller: _panelController,
               maxHeight: MediaQuery.of(context).size.height - 80,
               panelBuilder: (scrollController) =>
-                  buildSlidingPanel(scrollController, panelController),
+                  buildSlidingPanel(scrollController, _panelController),
               body: const NavigationBodyWidget(),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(20),
@@ -66,9 +81,9 @@ class NavigationScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        Flexible(
+        Expanded(
           child: FutureBuilder<List<Event>>(
-            future: NavigationRepository().getActivities(),
+            future: _activitiesFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -97,7 +112,27 @@ class NavigationScreen extends StatelessWidget {
                   ),
                 );
               }
-              return EventListWidget(activities: snapshot.data!);
+              return ListView.builder(
+                controller: scrollController,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final activity = snapshot.data![index];
+                  return EventWidget(
+                    name: activity.name,
+                    description: activity.description,
+                    onPressed: () {
+                      context.read<NavigationBloc>().add(
+                            StartNavigationEvent(
+                              activity.room,
+                              0,
+                              _currentX,
+                              _currentY,
+                            ),
+                          );
+                    },
+                  );
+                },
+              );
             },
           ),
         ),

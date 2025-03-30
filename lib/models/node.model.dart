@@ -4,7 +4,7 @@ class Node {
   final String width;
   final String height;
   final int story;
-  final List<int> neighbors;
+  final List<dynamic> neighbors;
 
   Node({
     required this.id,
