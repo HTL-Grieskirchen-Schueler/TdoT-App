@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:tdot_gkr/blocs/navigation/navigation_bloc.dart';
@@ -19,9 +19,7 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   final PanelController _panelController = PanelController();
   late Future<List<Event>> _activitiesFuture;
-
-  final int _currentX = 120;
-  final int _currentY = 350;
+  int selectedValue = 0;
 
   @override
   void initState() {
@@ -35,11 +33,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
       create: (context) => NavigationRepository(),
       child: BlocProvider(
         create: (context) => NavigationBloc(context.read<NavigationRepository>()),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Wegweiser'),
+        child: CupertinoPageScaffold(
+          navigationBar: CupertinoNavigationBar(
+            middle: const Text('Wegweiser'),
           ),
-          body: BlocListener<NavigationBloc, NavigationState>(
+          child: BlocListener<NavigationBloc, NavigationState>(
             listener: (context, state) {
               if (state is PanelClosed) {
                 _panelController.close();
@@ -86,7 +84,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             future: _activitiesFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: CupertinoActivityIndicator());
               }
               if (snapshot.hasError) {
                 return Padding(
@@ -95,7 +93,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     snapshot.error.toString().substring(11),
                     style: const TextStyle(
                       fontSize: 16,
-                      color: Colors.red,
+                      color: CupertinoColors.systemRed,
                     ),
                   ),
                 );
@@ -107,7 +105,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     'Keine Events verfügbar',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
+                      color: CupertinoColors.systemGrey,
                     ),
                   ),
                 );
@@ -124,9 +122,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
                       context.read<NavigationBloc>().add(
                             StartNavigationEvent(
                               activity.room,
-                              0,
-                              _currentX,
-                              _currentY,
                             ),
                           );
                     },
@@ -143,7 +138,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   Widget buildDragIcon() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: CupertinoColors.systemGrey,
         borderRadius: BorderRadius.circular(8),
       ),
       width: 40,

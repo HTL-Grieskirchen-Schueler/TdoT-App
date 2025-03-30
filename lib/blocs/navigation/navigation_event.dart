@@ -9,14 +9,11 @@ abstract class NavigationEvent extends Equatable {
 
 class StartNavigationEvent extends NavigationEvent {
   final String room;
-  final int floor;
-  final int x;
-  final int y;
 
-  const StartNavigationEvent(this.room, this.floor, this.x, this.y);
+  const StartNavigationEvent(this.room);
 
   @override
-  List<Object> get props => [room, floor, x, y];
+  List<Object> get props => [room];
 }
 
 class PositionChangedEvent extends NavigationEvent {
@@ -28,13 +25,4 @@ class PositionChangedEvent extends NavigationEvent {
 
   @override
   List<Object> get props => [x, y, floor];
-}
-
-class FetchSvgEvent extends NavigationEvent {
-  final int floor;
-
-  const FetchSvgEvent(this.floor);
-
-  @override
-  List<Object> get props => [floor];
 }

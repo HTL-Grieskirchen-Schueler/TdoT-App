@@ -14,21 +14,24 @@ class EventListWidget extends StatelessWidget {
         middle: Text('Events'),
       ),
       child: CupertinoScrollbar(
-        child: ListView.builder(
-          itemCount: activities.length,
-          itemBuilder: (context, index) {
-            final activity = activities[index];
-            return CupertinoButton(
-              padding: EdgeInsets.zero, // Optional: adjusts padding around the button
-              onPressed: () {
-                // Handle the event when pressed
-              },
-              child: EventWidget(
-                name: activity.name,
-                description: activity.description, onPressed: () {  },
-              ),
-            );
-          },
+        child: SafeArea(
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: activities.length,
+            itemBuilder: (context, index) {
+              final activity = activities[index];
+              return CupertinoButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                },
+                child: EventWidget(
+                  name: activity.name,
+                  description: activity.description,
+                  onPressed: () {},
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
