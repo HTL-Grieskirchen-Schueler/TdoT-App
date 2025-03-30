@@ -1,7 +1,7 @@
 import 'package:tdot_gkr/models/information/paragraph.model.dart';
 
 class InformationSection {
-  String heading;
+  String? heading;
   List<InformationParagraph> paragraphs;
 
   InformationSection({required this.heading, required this.paragraphs});
@@ -9,7 +9,7 @@ class InformationSection {
   factory InformationSection.fromJson(Map<String, dynamic> json) {
     return InformationSection(
       heading: json['heading'],
-      paragraphs: (json['paragraphs'] as List)
+      paragraphs: ((json['paragraphs'] as List?) ?? [])
           .map((item) => InformationParagraph.fromJson(item))
           .toList(),
     );

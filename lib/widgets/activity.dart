@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class ActivityWidget extends StatefulWidget {
   final String title;
@@ -51,11 +51,12 @@ class _ActivityWidgetState extends State<ActivityWidget> {
         duration: const Duration(milliseconds: 100),
         child: Container(
           padding: const EdgeInsets.all(8.0),
-          decoration: const BoxDecoration(color: Colors.transparent),
+          decoration: const BoxDecoration(color: CupertinoColors.transparent),
           child: Row(
             children: [
               Icon(
                 widget.iconData,
+                color: CupertinoColors.black,
                 size: 50,
               ),
               const SizedBox(width: 15),
@@ -75,7 +76,7 @@ class _ActivityWidgetState extends State<ActivityWidget> {
                       child: Text(
                         widget.description,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: CupertinoColors.white,
                           fontSize: 16,
                         ),
                       ),
@@ -85,7 +86,8 @@ class _ActivityWidgetState extends State<ActivityWidget> {
               ),
               const SizedBox(width: 15),
               const Icon(
-                Icons.arrow_forward_ios,
+                CupertinoIcons.chevron_right,
+                color: CupertinoColors.black,
                 size: 40,
               ),
             ],
