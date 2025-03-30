@@ -9,8 +9,8 @@ import 'package:xml/xml.dart' as xml;
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   final NavigationRepository _repository;
   final int _selectedFloor = 0;
-  int _x = 0;
-  int _y = 0;
+  int _x = 120;
+  int _y = 350;
   String _targetRoom = '';
 
   List<Node> nodes = [];
@@ -18,14 +18,13 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   NavigationBloc(this._repository) : super(NavigationInitial()) {
     on<StartNavigationEvent>((event, emit) async {
       try {
-        _x = event.x;
-        _y = event.y;
-
         nodes = await _repository.getNodes();
         _targetRoom = event.room;
 
         List<Node> path = _getPath(_x, _y, event.room, nodes);
-        final svgData = await _repository.getSvg(event.floor);
+
+        final svgData = await _repository.getSvg(_selectedFloor);
+
         final updatedSvg = _drawNavigationOnSvg(svgData, path, _x, _y);
 
         emit(PanelClosed());
@@ -38,32 +37,23 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     on<PositionChangedEvent>((event, emit) async {
       try {
         final svgData = await _repository.getSvg(event.floor);
+
+        _x = event.x;
+        _y = event.y;
+
         if (nodes.isNotEmpty) {
           final path = _getPath(event.x, event.y, _targetRoom, nodes);
+          print("Path: $path");
+          final updatedSvg =
+              _drawNavigationOnSvg(svgData, path, event.x, event.y);
 
-          final updatedSvg = _drawNavigationOnSvg(svgData, path, event.x, event.y);
-          emit(PositionUpdated(updatedSvg, event.x, event.y));
+          emit(SvgUpdated(updatedSvg));
         } else {
           final updatedSvg = _drawPositionOnSvg(svgData, event.x, event.y);
-          emit(PositionUpdated(updatedSvg, event.x, event.y));
+          emit(SvgUpdated(updatedSvg));
         }
       } catch (e) {
         print("Failed to update position: $e");
-      }
-    });
-
-    on<FetchSvgEvent>((event, emit) async {
-      try {
-        final svgData = await _repository.getSvg(event.floor);
-
-        if (event.floor == _selectedFloor) {
-          final updatedSvg = _drawPositionOnSvg(svgData, _x, _y);
-          emit(PositionUpdated(updatedSvg, _x, _y));
-        } else {
-          emit(SvgUpdated(svgData));
-        }
-      } catch (e) {
-        print("Failed to fetch SVG: $e");
       }
     });
   }
@@ -78,7 +68,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       (node) => node.name == room,
       orElse: () => throw Exception("Target node with name '$room' not found"),
     );
-    print("End node found: ${endNode.name} (${endNode.width}, ${endNode.height})");
+    print(
+        "End node found: ${endNode.name} (${endNode.width}, ${endNode.height})");
 
     Node? nearestNode;
     double minDistance = double.infinity;
@@ -99,15 +90,18 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     }
 
     if (nearestNode == null) {
-      throw Exception("No nearest node found for coordinates ($startX, $startY)");
+      throw Exception(
+          "No nearest node found for coordinates ($startX, $startY)");
     }
-    print("Nearest node found: ${nearestNode.name} (${nearestNode.width}, ${nearestNode.height})");
+    print(
+        "Nearest node found: ${nearestNode.name} (${nearestNode.width}, ${nearestNode.height})");
 
     final bfsPath = _bfs(nearestNode, endNode, nodes);
 
     print("Path:");
     for (var node in bfsPath) {
-      print("Node ID: ${node.id}, Name: ${node.name}, Coordinates: (${node.width}, ${node.height})");
+      print(
+          "Node ID: ${node.id}, Name: ${node.name}, Coordinates: (${node.width}, ${node.height})");
     }
 
     return bfsPath;
@@ -146,16 +140,18 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       }
     }
 
-    throw Exception("No path found from (${startNode.name}) to (${endNode.name})");
+    throw Exception(
+        "No path found from (${startNode.name}) to (${endNode.name})",);
   }
 
-  String _drawNavigationOnSvg(String svgData, List<Node> path, int startX, int startY) {
+  String _drawNavigationOnSvg(
+      String svgData, List<Node> path, int startX, int startY,) {
     final document = xml.XmlDocument.parse(svgData);
 
     final svgElement = document.rootElement;
 
     final groupElement = xml.XmlElement(xml.XmlName('g'))
-      ..setAttribute('stroke', 'blue') 
+      ..setAttribute('stroke', 'blue')
       ..setAttribute('stroke-width', '2');
 
     if (path.isNotEmpty) {
