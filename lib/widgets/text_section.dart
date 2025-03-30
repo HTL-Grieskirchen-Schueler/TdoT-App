@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tdot_gkr/models/information/section.model.dart';
 import 'package:tdot_gkr/widgets/text_paragraph.dart';
 
@@ -19,12 +19,23 @@ class _TextSectionWidgetState extends State<TextSectionWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Text(
-              widget.section.heading,
-              style: Theme.of(context).textTheme.headlineMedium,
+          if (widget.section.heading != null) ...[
+            Center(
+              child: Text(
+                widget.section.heading!,
+                style: CupertinoTheme.of(context)
+                    .textTheme
+                    .navLargeTitleTextStyle
+                    .copyWith(
+                      fontSize: CupertinoTheme.of(context)
+                              .textTheme
+                              .navLargeTitleTextStyle
+                              .fontSize! *
+                          0.9,
+                    ),
+              ),
             ),
-          ),
+          ],
           ...widget.section.paragraphs.map<Widget>((paragraph) {
             return TextParagraphWidget(paragraph: paragraph);
           }),

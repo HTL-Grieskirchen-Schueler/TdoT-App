@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../screens/information.dart';
 import '../screens/navigation.dart';
@@ -18,7 +18,7 @@ class ActivityList extends StatelessWidget {
         ActivityWidget(
           title: "Wegweiser",
           description: "Wir bringen dich an dein Ziel!",
-          iconData: Icons.map,
+          iconData: CupertinoIcons.map,
           onTap: () => _navigateTo(
             context,
             const NavigationScreen(),
@@ -27,13 +27,13 @@ class ActivityList extends StatelessWidget {
         ActivityWidget(
           title: "Schnuppertag",
           description: "Tauche in den HTL-Alltag ein!",
-          iconData: Icons.history_edu,
+          iconData: CupertinoIcons.book,
           onTap: () => _navigateTo(context, const TrialDayRegistrationScreen()),
         ),
         ActivityWidget(
           title: "Schulanmeldung",
           description: "Melde dich jetzt an!",
-          iconData: Icons.school,
+          iconData: CupertinoIcons.info,
           onTap: () => _navigateTo(context, const InformationScreen()),
         ),
       ],
@@ -42,7 +42,7 @@ class ActivityList extends StatelessWidget {
 
   void _navigateTo(BuildContext context, Widget screen) {
     Navigator.of(context).push(
-      MaterialPageRoute(
+      CupertinoPageRoute(
         builder: (context) => screen,
       ),
     );

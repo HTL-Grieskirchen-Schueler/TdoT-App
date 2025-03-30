@@ -2,7 +2,6 @@ name: Build Flutter Apps
 
 on:
   - push
-  - pull_request
 
 jobs:
   build_ios:
@@ -10,26 +9,21 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - uses: cedvdb/action-flutter-build-ios@v1
         with:
-          channel: stable
-          cache: true
-      - run: flutter pub get
-      - name: Build iOS
-        run: flutter build ios --release --no-codesign
-      - name: Package as unsigned IPA
-        run: |
-          mkdir -p Payload
-          cp -r build/ios/iphoneos/Runner.app Payload/
-          zip -r Runner.zip Payload
-          mv Runner.zip Runner.ipa
-      - name: Upload iOS Artifacts
+          # always use --export-options-plist=ios/GithubActionsExportOptions.plist
+          build-cmd: flutter build ipa --release --export-options-plist=ios/GithubActionsExportOptions.plist
+          certificate-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+          certificate-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+          provisioning-profile-base64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
+          keychain-password: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
+
+      - name: Archive IPA
         uses: actions/upload-artifact@v4
         with:
-          name: IPA
-          path: |
-            Runner.ipa
+          name: release-ipa
+          # Try running the build locally with the build command to be sure of this path
+          path: build/ios/ipa/tdot_gkr.ipa
 
   build_android:
     runs-on: ubuntu-latest
@@ -49,17 +43,9 @@ jobs:
       - run: flutter pub get
       - name: Build APK
         run: flutter build apk --release
-      - name: Build App Bundle
-        run: flutter build appbundle
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: APK
           path: |
             build/app/outputs/flutter-apk/app-release.apk
-      - name: Upload Android Bundle Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Bundle
-          path: |
-            build/app/outputs/bundle/release/app-release.aab

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tdot_gkr/widgets/activity_list.dart';
 import 'package:tdot_gkr/widgets/wave_animation.dart';
 
@@ -7,9 +7,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CupertinoPageScaffold(
       backgroundColor: const Color(0xFFFFFFFF),
-      body: Center(
+      child: Center(
         child: Column(
           children: <Widget>[
             const SizedBox(height: 50),
