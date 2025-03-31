@@ -32,26 +32,29 @@ class _NavigationScreenState extends State<NavigationScreen> {
     return RepositoryProvider(
       create: (context) => NavigationRepository(),
       child: BlocProvider(
-        create: (context) => NavigationBloc(context.read<NavigationRepository>()),
+        create: (context) =>
+            NavigationBloc(context.read<NavigationRepository>()),
         child: CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
             middle: const Text('Wegweiser'),
           ),
-          child: BlocListener<NavigationBloc, NavigationState>(
-            listener: (context, state) {
-              if (state is PanelClosed) {
-                _panelController.close();
-              }
-            },
-            child: SlidingUpPanel(
-              controller: _panelController,
-              maxHeight: MediaQuery.of(context).size.height - 80,
-              panelBuilder: (scrollController) =>
-                  buildSlidingPanel(scrollController, _panelController),
-              body: const NavigationBodyWidget(),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+          child: SafeArea(
+            child: BlocListener<NavigationBloc, NavigationState>(
+              listener: (context, state) {
+                if (state is PanelClosed) {
+                  _panelController.close();
+                }
+              },
+              child: SlidingUpPanel(
+                controller: _panelController,
+                maxHeight: MediaQuery.of(context).size.height,
+                panelBuilder: (scrollController) =>
+                    buildSlidingPanel(scrollController, _panelController),
+                body: const NavigationBodyWidget(),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
               ),
             ),
           ),
@@ -60,7 +63,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
     );
   }
 
-  Widget buildSlidingPanel(ScrollController scrollController, PanelController panelController) {
+  Widget buildSlidingPanel(
+      ScrollController scrollController, PanelController panelController) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [

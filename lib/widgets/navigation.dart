@@ -47,8 +47,7 @@ class NavigationBodyWidgetState extends State<NavigationBodyWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
@@ -98,7 +97,6 @@ class NavigationBodyWidgetState extends State<NavigationBodyWidget> {
             ),
           ),
         ],
-      ),
     );
   }
 }

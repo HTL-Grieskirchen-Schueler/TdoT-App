@@ -14,7 +14,6 @@ class EventListWidget extends StatelessWidget {
         middle: Text('Events'),
       ),
       child: CupertinoScrollbar(
-        child: SafeArea(
           child: ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: activities.length,
@@ -33,7 +32,6 @@ class EventListWidget extends StatelessWidget {
             },
           ),
         ),
-      ),
     );
   }
 }
