@@ -64,7 +64,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   }
 
   Widget buildSlidingPanel(
-      ScrollController scrollController, PanelController panelController) {
+      ScrollController scrollController, PanelController panelController,) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
