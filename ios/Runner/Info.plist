@@ -46,5 +46,10 @@
 	<array>
 		<integer>1</integer>
 	</array>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+		<string>telephony</string>
+	</array>
 </dict>
 </plist>
