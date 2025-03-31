@@ -38,8 +38,7 @@ class NavigationBodyWidgetState extends State<NavigationBodyWidget> {
 
   void _loadSvgData(int floor) async {
     try {
-      setState(() {
-      });
+      setState(() {});
     } catch (e) {
       print('Failed to load SVG: $e');
     }
@@ -48,55 +47,59 @@ class NavigationBodyWidgetState extends State<NavigationBodyWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: CupertinoSlidingSegmentedControl<int>(
-              groupValue: _selectedFloor,
-              onValueChanged: (int? newFloor) {
-                if (newFloor != null) {
-                  setState(() {
-                    _selectedFloor = newFloor;
-                  });
-                  _loadSvgData(newFloor);
-                  context.read<NavigationBloc>().add(PositionChangedEvent(
-                      _currentX, _currentY, _selectedFloor,),);
-                }
-              },
-              children: const <int, Widget>{
-                0: Text('EG', style: TextStyle(fontSize: 16.0)),
-                1: Text('OG', style: TextStyle(fontSize: 16.0)),
-              },
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 80.0),
-              child: BlocBuilder<NavigationBloc, NavigationState>(
-                builder: (context, state) {
-                  if (state is SvgUpdated) {
-                    return Transform.rotate(
-                      angle: -math.pi / 2,
-                      child: Transform.scale(
-                        scale: 1.6,
-                        child: SvgPicture.string(
-                          state.svgData,
-                          fit: BoxFit.contain,
-                        ),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: CupertinoSlidingSegmentedControl<int>(
+            groupValue: _selectedFloor,
+            onValueChanged: (int? newFloor) {
+              if (newFloor != null) {
+                setState(() {
+                  _selectedFloor = newFloor;
+                });
+                _loadSvgData(newFloor);
+                context.read<NavigationBloc>().add(
+                      PositionChangedEvent(
+                        _currentX,
+                        _currentY,
+                        _selectedFloor,
                       ),
                     );
-                  } else {
-                    return const Center(
-                      child: Text('Loading...'),
-                    );
-                  }
-                },
-              ),
+              }
+            },
+            children: const <int, Widget>{
+              0: Text('EG', style: TextStyle(fontSize: 16.0)),
+              1: Text('OG', style: TextStyle(fontSize: 16.0)),
+            },
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 200.0),
+            child: BlocBuilder<NavigationBloc, NavigationState>(
+              builder: (context, state) {
+                if (state is SvgUpdated) {
+                  return Transform.rotate(
+                    angle: -math.pi / 2,
+                    child: Transform.scale(
+                      scale: 1.6,
+                      child: SvgPicture.string(
+                        state.svgData,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: Text('Loading...'),
+                  );
+                }
+              },
             ),
           ),
-        ],
+        ),
+      ],
     );
   }
 }
